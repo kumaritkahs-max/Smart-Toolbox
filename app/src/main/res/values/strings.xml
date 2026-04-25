@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GitHub Control</string>
+    <string name="login_title">Sign in with GitHub</string>
+    <string name="login_subtitle">Use a Personal Access Token (PAT) with repo scope</string>
+    <string name="pat_hint">ghp_…</string>
+    <string name="sign_in">Sign in</string>
+    <string name="biometric_prompt_title">Unlock GitHub Control</string>
+    <string name="biometric_prompt_subtitle">Authenticate to continue</string>
+    <string name="cancel">Cancel</string>
+</resources>

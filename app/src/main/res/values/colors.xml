@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ink">#0D1117</color>
+    <color name="surface">#161B22</color>
+    <color name="brand">#2F81F7</color>
+    <color name="success">#3FB950</color>
+    <color name="warn">#D29922</color>
+    <color name="danger">#F85149</color>
+    <color name="white">#FFFFFF</color>
+</resources>

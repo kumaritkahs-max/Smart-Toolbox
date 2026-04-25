@@ -1,0 +1,459 @@
+package com.githubcontrol.data.api
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class GhUser(
+    val login: String,
+    val id: Long,
+    @SerialName("avatar_url") val avatarUrl: String,
+    val name: String? = null,
+    val email: String? = null,
+    val bio: String? = null,
+    val company: String? = null,
+    val location: String? = null,
+    val blog: String? = null,
+    @SerialName("public_repos") val publicRepos: Int = 0,
+    val followers: Int = 0,
+    val following: Int = 0,
+    @SerialName("created_at") val createdAt: String? = null,
+    @SerialName("type") val type: String = "User"
+)
+
+@Serializable
+data class GhRepo(
+    val id: Long,
+    val name: String,
+    @SerialName("full_name") val fullName: String,
+    val owner: GhUser,
+    val description: String? = null,
+    val private: Boolean = false,
+    val fork: Boolean = false,
+    val archived: Boolean = false,
+    val disabled: Boolean = false,
+    @SerialName("has_issues") val hasIssues: Boolean = true,
+    @SerialName("has_wiki") val hasWiki: Boolean = true,
+    @SerialName("has_projects") val hasProjects: Boolean = true,
+    val language: String? = null,
+    @SerialName("default_branch") val defaultBranch: String = "main",
+    @SerialName("stargazers_count") val stars: Int = 0,
+    @SerialName("forks_count") val forks: Int = 0,
+    @SerialName("watchers_count") val watchers: Int = 0,
+    @SerialName("open_issues_count") val openIssues: Int = 0,
+    val size: Int = 0,
+    @SerialName("pushed_at") val pushedAt: String? = null,
+    @SerialName("updated_at") val updatedAt: String? = null,
+    @SerialName("created_at") val createdAt: String? = null,
+    @SerialName("html_url") val htmlUrl: String,
+    @SerialName("clone_url") val cloneUrl: String,
+    @SerialName("ssh_url") val sshUrl: String? = null,
+    val visibility: String? = null,
+    val topics: List<String> = emptyList(),
+    val license: GhLicense? = null
+)
+
+@Serializable
+data class GhLicense(val key: String? = null, val name: String? = null, @SerialName("spdx_id") val spdxId: String? = null)
+
+@Serializable
+data class GhContent(
+    val name: String,
+    val path: String,
+    val sha: String,
+    val size: Long = 0,
+    val type: String, // "file" | "dir" | "symlink" | "submodule"
+    val content: String? = null,
+    val encoding: String? = null,
+    @SerialName("download_url") val downloadUrl: String? = null,
+    @SerialName("html_url") val htmlUrl: String? = null,
+    @SerialName("git_url") val gitUrl: String? = null,
+    @SerialName("_links") val links: GhLinks? = null
+)
+
+@Serializable
+data class GhLinks(val self: String? = null, val git: String? = null, val html: String? = null)
+
+@Serializable
+data class GhBranch(
+    val name: String,
+    val commit: GhBranchCommit,
+    val protected: Boolean = false
+)
+
+@Serializable
+data class GhBranchCommit(val sha: String, val url: String)
+
+@Serializable
+data class GhCommit(
+    val sha: String,
+    val commit: GhCommitDetail,
+    val author: GhUser? = null,
+    val committer: GhUser? = null,
+    @SerialName("html_url") val htmlUrl: String? = null,
+    val parents: List<GhCommitParent> = emptyList(),
+    val stats: GhCommitStats? = null,
+    val files: List<GhCommitFile> = emptyList()
+)
+
+@Serializable
+data class GhCommitParent(val sha: String, val url: String)
+
+@Serializable
+data class GhCommitDetail(
+    val message: String,
+    val author: GhCommitAuthor,
+    val committer: GhCommitAuthor,
+    val tree: GhTreeRef
+)
+
+@Serializable
+data class GhCommitAuthor(val name: String, val email: String, val date: String)
+
+@Serializable
+data class GhTreeRef(val sha: String, val url: String)
+
+@Serializable
+data class GhCommitStats(val additions: Int = 0, val deletions: Int = 0, val total: Int = 0)
+
+@Serializable
+data class GhCommitFile(
+    val sha: String? = null,
+    val filename: String,
+    val status: String,
+    val additions: Int = 0,
+    val deletions: Int = 0,
+    val changes: Int = 0,
+    val patch: String? = null,
+    @SerialName("blob_url") val blobUrl: String? = null,
+    @SerialName("raw_url") val rawUrl: String? = null
+)
+
+@Serializable
+data class GhPullRequest(
+    val id: Long,
+    val number: Int,
+    val title: String,
+    val body: String? = null,
+    val state: String,
+    val draft: Boolean = false,
+    @SerialName("user") val user: GhUser,
+    val head: GhPRRef,
+    val base: GhPRRef,
+    @SerialName("created_at") val createdAt: String,
+    @SerialName("updated_at") val updatedAt: String,
+    @SerialName("merged_at") val mergedAt: String? = null,
+    val merged: Boolean = false,
+    val mergeable: Boolean? = null,
+    @SerialName("html_url") val htmlUrl: String,
+    val comments: Int = 0,
+    val commits: Int = 0,
+    val additions: Int = 0,
+    val deletions: Int = 0,
+    @SerialName("changed_files") val changedFiles: Int = 0
+)
+
+@Serializable
+data class GhPRRef(val ref: String, val sha: String, val label: String? = null)
+
+@Serializable
+data class GhIssue(
+    val id: Long,
+    val number: Int,
+    val title: String,
+    val body: String? = null,
+    val state: String,
+    @SerialName("user") val user: GhUser,
+    val labels: List<GhLabel> = emptyList(),
+    val assignees: List<GhUser> = emptyList(),
+    val comments: Int = 0,
+    @SerialName("created_at") val createdAt: String,
+    @SerialName("updated_at") val updatedAt: String,
+    @SerialName("html_url") val htmlUrl: String,
+    @SerialName("pull_request") val pullRequest: GhPullLink? = null
+)
+
+@Serializable
+data class GhPullLink(val url: String? = null)
+
+@Serializable
+data class GhLabel(val id: Long = 0, val name: String, val color: String = "888888", val description: String? = null)
+
+@Serializable
+data class GhWorkflow(
+    val id: Long,
+    val name: String,
+    val path: String,
+    val state: String,
+    @SerialName("created_at") val createdAt: String,
+    @SerialName("updated_at") val updatedAt: String,
+    @SerialName("html_url") val htmlUrl: String
+)
+
+@Serializable
+data class GhWorkflowsResponse(@SerialName("total_count") val totalCount: Int = 0, val workflows: List<GhWorkflow> = emptyList())
+
+@Serializable
+data class GhWorkflowRun(
+    val id: Long,
+    val name: String? = null,
+    @SerialName("head_branch") val headBranch: String? = null,
+    @SerialName("head_sha") val headSha: String,
+    val status: String,
+    val conclusion: String? = null,
+    @SerialName("workflow_id") val workflowId: Long,
+    @SerialName("run_number") val runNumber: Int,
+    val event: String,
+    @SerialName("created_at") val createdAt: String,
+    @SerialName("updated_at") val updatedAt: String,
+    @SerialName("html_url") val htmlUrl: String
+)
+
+@Serializable
+data class GhWorkflowRunsResponse(@SerialName("total_count") val totalCount: Int = 0, @SerialName("workflow_runs") val runs: List<GhWorkflowRun> = emptyList())
+
+@Serializable
+data class GhSearchReposResponse(
+    @SerialName("total_count") val totalCount: Int,
+    @SerialName("incomplete_results") val incompleteResults: Boolean = false,
+    val items: List<GhRepo> = emptyList()
+)
+
+@Serializable
+data class GhSearchCodeResponse(
+    @SerialName("total_count") val totalCount: Int,
+    @SerialName("incomplete_results") val incompleteResults: Boolean = false,
+    val items: List<GhCodeItem> = emptyList()
+)
+
+@Serializable
+data class GhCodeItem(
+    val name: String,
+    val path: String,
+    val sha: String,
+    @SerialName("html_url") val htmlUrl: String,
+    val repository: GhRepo
+)
+
+@Serializable
+data class GhSearchUsersResponse(
+    @SerialName("total_count") val totalCount: Int,
+    val items: List<GhUser> = emptyList()
+)
+
+@Serializable
+data class GhContributor(
+    val login: String,
+    val id: Long,
+    @SerialName("avatar_url") val avatarUrl: String,
+    val contributions: Int
+)
+
+@Serializable
+data class GhFileTree(
+    val sha: String,
+    val url: String,
+    val tree: List<GhFileTreeItem> = emptyList(),
+    val truncated: Boolean = false
+)
+
+@Serializable
+data class GhFileTreeItem(
+    val path: String,
+    val mode: String,
+    val type: String,
+    val sha: String,
+    val size: Long? = null,
+    val url: String? = null
+)
+
+@Serializable
+data class GhCommitCompare(
+    val status: String,
+    @SerialName("ahead_by") val aheadBy: Int,
+    @SerialName("behind_by") val behindBy: Int,
+    @SerialName("total_commits") val totalCommits: Int,
+    val commits: List<GhCommit> = emptyList(),
+    val files: List<GhCommitFile> = emptyList()
+)
+
+@Serializable
+data class GhRelease(
+    val id: Long,
+    @SerialName("tag_name") val tagName: String,
+    val name: String? = null,
+    val body: String? = null,
+    val draft: Boolean,
+    val prerelease: Boolean,
+    @SerialName("created_at") val createdAt: String,
+    @SerialName("published_at") val publishedAt: String? = null,
+    @SerialName("html_url") val htmlUrl: String
+)
+
+@Serializable
+data class GhNotification(
+    val id: String,
+    val unread: Boolean,
+    val reason: String,
+    @SerialName("updated_at") val updatedAt: String,
+    val subject: GhNotificationSubject,
+    val repository: GhRepo
+)
+
+@Serializable
+data class GhNotificationSubject(val title: String, val type: String, val url: String? = null)
+
+// ---------- Request bodies ----------
+
+@Serializable
+data class CreateRepoRequest(
+    val name: String,
+    val description: String? = null,
+    val private: Boolean = false,
+    @SerialName("auto_init") val autoInit: Boolean = true,
+    @SerialName("gitignore_template") val gitignoreTemplate: String? = null,
+    @SerialName("license_template") val licenseTemplate: String? = null,
+    @SerialName("has_issues") val hasIssues: Boolean = true,
+    @SerialName("has_wiki") val hasWiki: Boolean = true,
+    @SerialName("has_projects") val hasProjects: Boolean = true
+)
+
+@Serializable
+data class UpdateRepoRequest(
+    val name: String? = null,
+    val description: String? = null,
+    val private: Boolean? = null,
+    val visibility: String? = null,
+    val archived: Boolean? = null,
+    @SerialName("has_issues") val hasIssues: Boolean? = null,
+    @SerialName("has_wiki") val hasWiki: Boolean? = null,
+    @SerialName("has_projects") val hasProjects: Boolean? = null,
+    @SerialName("default_branch") val defaultBranch: String? = null
+)
+
+@Serializable
+data class TransferRepoRequest(@SerialName("new_owner") val newOwner: String)
+
+@Serializable
+data class PutFileRequest(
+    val message: String,
+    val content: String,
+    val sha: String? = null,
+    val branch: String? = null,
+    val author: GhCommitAuthor? = null,
+    val committer: GhCommitAuthor? = null
+)
+
+@Serializable
+data class DeleteFileRequest(
+    val message: String,
+    val sha: String,
+    val branch: String? = null
+)
+
+@Serializable
+data class PutFileResponse(val content: GhContent? = null, val commit: GhCommit? = null)
+
+@Serializable
+data class CreateBranchRequest(val ref: String, val sha: String)
+
+@Serializable
+data class UpdateRefRequest(val sha: String, val force: Boolean = false)
+
+@Serializable
+data class CreatePRRequest(
+    val title: String,
+    val head: String,
+    val base: String,
+    val body: String? = null,
+    val draft: Boolean = false
+)
+
+@Serializable
+data class UpdatePRRequest(
+    val title: String? = null,
+    val body: String? = null,
+    val state: String? = null,
+    val base: String? = null
+)
+
+@Serializable
+data class MergePRRequest(
+    @SerialName("commit_title") val commitTitle: String? = null,
+    @SerialName("commit_message") val commitMessage: String? = null,
+    @SerialName("merge_method") val mergeMethod: String = "merge"
+)
+
+@Serializable
+data class CreateIssueRequest(
+    val title: String,
+    val body: String? = null,
+    val labels: List<String> = emptyList(),
+    val assignees: List<String> = emptyList()
+)
+
+@Serializable
+data class UpdateIssueRequest(
+    val title: String? = null,
+    val body: String? = null,
+    val state: String? = null,
+    val labels: List<String>? = null,
+    val assignees: List<String>? = null
+)
+
+@Serializable
+data class IssueComment(
+    val id: Long,
+    val body: String,
+    val user: GhUser,
+    @SerialName("created_at") val createdAt: String,
+    @SerialName("updated_at") val updatedAt: String
+)
+
+@Serializable
+data class CreateCommentRequest(val body: String)
+
+@Serializable
+data class CreateRefRequest(val ref: String, val sha: String)
+
+@Serializable
+data class GhRef(val ref: String, @SerialName("node_id") val nodeId: String? = null, val url: String, val `object`: GhRefObject)
+
+@Serializable
+data class GhRefObject(val sha: String, val type: String, val url: String)
+
+@Serializable
+data class GhEmail(val email: String, val primary: Boolean = false, val verified: Boolean = false, val visibility: String? = null)
+
+@Serializable
+data class GhRateLimit(val resources: Map<String, GhRateLimitEntry> = emptyMap(), val rate: GhRateLimitEntry)
+
+@Serializable
+data class GhRateLimitEntry(val limit: Int, val remaining: Int, val reset: Long, val used: Int = 0)
+
+@Serializable
+data class GhBlob(val sha: String, val size: Long, val content: String, val encoding: String, val url: String)
+
+@Serializable
+data class CreateBlobRequest(val content: String, val encoding: String = "base64")
+
+@Serializable
+data class CreateTreeRequest(@SerialName("base_tree") val baseTree: String? = null, val tree: List<TreeNode>)
+
+@Serializable
+data class TreeNode(
+    val path: String,
+    val mode: String = "100644",
+    val type: String = "blob",
+    val sha: String? = null,
+    val content: String? = null
+)
+
+@Serializable
+data class CreateCommitRequest(
+    val message: String,
+    val tree: String,
+    val parents: List<String>,
+    val author: GhCommitAuthor? = null,
+    val committer: GhCommitAuthor? = null
+)

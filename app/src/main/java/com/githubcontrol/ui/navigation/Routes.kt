@@ -1,0 +1,60 @@
+package com.githubcontrol.ui.navigation
+
+object Routes {
+    const val LOGIN = "login"
+    const val BIOMETRIC = "biometric"
+    const val DASHBOARD = "dashboard"
+    const val REPOS = "repos"
+    const val REPO_DETAIL = "repo/{owner}/{name}"
+    const val CREATE_REPO = "create_repo"
+    const val FILES = "files/{owner}/{name}?path={path}&ref={ref}"
+    const val TREE = "tree/{owner}/{name}?ref={ref}"
+    const val FILE_PREVIEW = "preview/{owner}/{name}?path={path}&ref={ref}"
+    const val UPLOAD = "upload/{owner}/{name}?path={path}&ref={ref}"
+    const val PROGRESS = "progress"
+    const val COMMITS = "commits/{owner}/{name}?branch={branch}"
+    const val COMMIT_DETAIL = "commit/{owner}/{name}/{sha}"
+    const val DIFF = "diff/{owner}/{name}/{base}/{head}"
+    const val PRS = "pulls/{owner}/{name}"
+    const val PR_DETAIL = "pull/{owner}/{name}/{number}"
+    const val CREATE_PR = "create_pr/{owner}/{name}"
+    const val ISSUES = "issues/{owner}/{name}"
+    const val ISSUE_DETAIL = "issue/{owner}/{name}/{number}"
+    const val ACTIONS = "actions/{owner}/{name}"
+    const val SEARCH = "search"
+    const val ANALYTICS = "analytics/{owner}/{name}"
+    const val ACCOUNTS = "accounts"
+    const val COMMAND = "command"
+    const val SETTINGS = "settings"
+    const val SYNC = "sync"
+    const val NOTIFICATIONS = "notifications"
+    const val PLUGINS = "plugins"
+    const val DOWNLOADS = "downloads"
+    const val BRANCHES = "branches/{owner}/{name}"
+    const val README = "readme/{owner}/{name}?ref={ref}"
+
+    fun repoDetail(owner: String, name: String) = "repo/$owner/$name"
+    fun files(owner: String, name: String, path: String = "", ref: String = "") =
+        "files/$owner/$name?path=${java.net.URLEncoder.encode(path, "UTF-8")}&ref=${java.net.URLEncoder.encode(ref, "UTF-8")}"
+    fun preview(owner: String, name: String, path: String, ref: String = "") =
+        "preview/$owner/$name?path=${java.net.URLEncoder.encode(path, "UTF-8")}&ref=${java.net.URLEncoder.encode(ref, "UTF-8")}"
+    fun upload(owner: String, name: String, path: String = "", ref: String = "") =
+        "upload/$owner/$name?path=${java.net.URLEncoder.encode(path, "UTF-8")}&ref=${java.net.URLEncoder.encode(ref, "UTF-8")}"
+    fun tree(owner: String, name: String, ref: String = "") =
+        "tree/$owner/$name?ref=${java.net.URLEncoder.encode(ref, "UTF-8")}"
+    fun commits(owner: String, name: String, branch: String = "") =
+        "commits/$owner/$name?branch=${java.net.URLEncoder.encode(branch, "UTF-8")}"
+    fun commitDetail(owner: String, name: String, sha: String) = "commit/$owner/$name/$sha"
+    fun diff(owner: String, name: String, base: String, head: String) =
+        "diff/$owner/$name/${java.net.URLEncoder.encode(base, "UTF-8")}/${java.net.URLEncoder.encode(head, "UTF-8")}"
+    fun pulls(owner: String, name: String) = "pulls/$owner/$name"
+    fun pull(owner: String, name: String, number: Int) = "pull/$owner/$name/$number"
+    fun createPr(owner: String, name: String) = "create_pr/$owner/$name"
+    fun issues(owner: String, name: String) = "issues/$owner/$name"
+    fun issue(owner: String, name: String, number: Int) = "issue/$owner/$name/$number"
+    fun actions(owner: String, name: String) = "actions/$owner/$name"
+    fun analytics(owner: String, name: String) = "analytics/$owner/$name"
+    fun branches(owner: String, name: String) = "branches/$owner/$name"
+    fun readme(owner: String, name: String, ref: String = "") =
+        "readme/$owner/$name?ref=${java.net.URLEncoder.encode(ref, "UTF-8")}"
+}

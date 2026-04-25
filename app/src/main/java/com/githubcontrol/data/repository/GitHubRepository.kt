@@ -1,0 +1,164 @@
+package com.githubcontrol.data.repository
+
+import com.githubcontrol.data.api.*
+import com.githubcontrol.data.auth.AccountManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class GitHubRepository @Inject constructor(
+    private val client: RetrofitClient,
+    private val accountManager: AccountManager
+) {
+    val api: GitHubApi get() = client.api
+
+    val cachedRepos = MutableStateFlow<List<GhRepo>>(emptyList())
+    val cachedBranches = MutableStateFlow<Map<String, List<GhBranch>>>(emptyMap())
+
+    suspend fun me(): GhUser = withContext(Dispatchers.IO) { api.me() }
+
+    suspend fun listMyRepos(page: Int, perPage: Int = 30, sort: String, direction: String, visibility: String?): List<GhRepo> =
+        withContext(Dispatchers.IO) {
+            api.myRepos(visibility = visibility, sort = sort, direction = direction, perPage = perPage, page = page)
+        }
+
+    suspend fun listStarred(page: Int, perPage: Int = 30): List<GhRepo> = withContext(Dispatchers.IO) {
+        val me = me()
+        api.myStarred(me.login, perPage, page)
+    }
+
+    suspend fun repo(owner: String, name: String) = withContext(Dispatchers.IO) { api.repo(owner, name) }
+
+    suspend fun createRepo(req: CreateRepoRequest) = withContext(Dispatchers.IO) { api.createRepo(req) }
+    suspend fun updateRepo(owner: String, name: String, req: UpdateRepoRequest) = withContext(Dispatchers.IO) { api.updateRepo(owner, name, req) }
+    suspend fun deleteRepo(owner: String, name: String) = withContext(Dispatchers.IO) { api.deleteRepo(owner, name) }
+    suspend fun forkRepo(owner: String, name: String) = withContext(Dispatchers.IO) { api.forkRepo(owner, name) }
+    suspend fun star(owner: String, name: String) = withContext(Dispatchers.IO) { api.star(owner, name) }
+    suspend fun unstar(owner: String, name: String) = withContext(Dispatchers.IO) { api.unstar(owner, name) }
+    suspend fun isStarred(owner: String, name: String) = withContext(Dispatchers.IO) {
+        runCatching { api.isStarred(owner, name).code() == 204 }.getOrDefault(false)
+    }
+    suspend fun watch(owner: String, name: String, subscribed: Boolean) = withContext(Dispatchers.IO) {
+        api.watch(owner, name, mapOf("subscribed" to subscribed, "ignored" to false))
+    }
+    suspend fun unwatch(owner: String, name: String) = withContext(Dispatchers.IO) { api.unwatch(owner, name) }
+    suspend fun transfer(owner: String, name: String, newOwner: String) = withContext(Dispatchers.IO) {
+        api.transfer(owner, name, TransferRepoRequest(newOwner))
+    }
+
+    suspend fun contents(owner: String, name: String, path: String, ref: String? = null): List<GhContent> = withContext(Dispatchers.IO) {
+        if (path.isBlank()) {
+            api.rootContents(owner, name, ref)
+        } else {
+            val resp = api.contents(owner, name, path, ref)
+            resp.body() ?: emptyList()
+        }
+    }
+
+    suspend fun fileContent(owner: String, name: String, path: String, ref: String? = null): GhContent =
+        withContext(Dispatchers.IO) { api.fileContent(owner, name, path, ref) }
+
+    suspend fun branches(owner: String, name: String): List<GhBranch> = withContext(Dispatchers.IO) {
+        api.branches(owner, name).also { cachedBranches.value = cachedBranches.value + (("$owner/$name") to it) }
+    }
+
+    suspend fun commits(owner: String, name: String, branch: String?, page: Int, perPage: Int = 30) =
+        withContext(Dispatchers.IO) { api.commits(owner, name, sha = branch, perPage = perPage, page = page) }
+
+    suspend fun commitDetail(owner: String, name: String, sha: String) = withContext(Dispatchers.IO) { api.commitDetail(owner, name, sha) }
+    suspend fun compare(owner: String, name: String, base: String, head: String) = withContext(Dispatchers.IO) { api.compare(owner, name, base, head) }
+
+    suspend fun pulls(owner: String, name: String, state: String, page: Int) =
+        withContext(Dispatchers.IO) { api.pullRequests(owner, name, state = state, page = page) }
+
+    suspend fun pull(owner: String, name: String, number: Int) = withContext(Dispatchers.IO) { api.pullRequest(owner, name, number) }
+
+    suspend fun createPull(owner: String, name: String, req: CreatePRRequest) = withContext(Dispatchers.IO) { api.createPullRequest(owner, name, req) }
+    suspend fun updatePull(owner: String, name: String, number: Int, req: UpdatePRRequest) = withContext(Dispatchers.IO) { api.updatePullRequest(owner, name, number, req) }
+    suspend fun mergePull(owner: String, name: String, number: Int, req: MergePRRequest) = withContext(Dispatchers.IO) { api.mergePullRequest(owner, name, number, req) }
+    suspend fun pullFiles(owner: String, name: String, number: Int) = withContext(Dispatchers.IO) { api.pullRequestFiles(owner, name, number) }
+
+    suspend fun issues(owner: String, name: String, state: String, page: Int) = withContext(Dispatchers.IO) { api.issues(owner, name, state = state, page = page) }
+    suspend fun issue(owner: String, name: String, number: Int) = withContext(Dispatchers.IO) { api.issue(owner, name, number) }
+    suspend fun createIssue(owner: String, name: String, req: CreateIssueRequest) = withContext(Dispatchers.IO) { api.createIssue(owner, name, req) }
+    suspend fun updateIssue(owner: String, name: String, number: Int, req: UpdateIssueRequest) = withContext(Dispatchers.IO) { api.updateIssue(owner, name, number, req) }
+    suspend fun issueComments(owner: String, name: String, number: Int) = withContext(Dispatchers.IO) { api.issueComments(owner, name, number) }
+    suspend fun addIssueComment(owner: String, name: String, number: Int, body: String) = withContext(Dispatchers.IO) {
+        api.addIssueComment(owner, name, number, CreateCommentRequest(body))
+    }
+
+    suspend fun workflows(owner: String, name: String) = withContext(Dispatchers.IO) { api.workflows(owner, name) }
+    suspend fun workflowRuns(owner: String, name: String, page: Int = 1) = withContext(Dispatchers.IO) { api.workflowRuns(owner, name, page = page) }
+    suspend fun dispatchWorkflow(owner: String, name: String, id: Long, ref: String, inputs: Map<String, String> = emptyMap()) = withContext(Dispatchers.IO) {
+        api.dispatchWorkflow(owner, name, id, mapOf("ref" to ref, "inputs" to inputs))
+    }
+
+    suspend fun searchRepos(q: String, page: Int = 1) = withContext(Dispatchers.IO) { api.searchRepos(q, page = page) }
+    suspend fun searchCode(q: String, page: Int = 1) = withContext(Dispatchers.IO) { api.searchCode(q, page = page) }
+    suspend fun searchUsers(q: String, page: Int = 1) = withContext(Dispatchers.IO) { api.searchUsers(q, page = page) }
+
+    suspend fun rateLimit() = withContext(Dispatchers.IO) { api.rateLimit() }
+    suspend fun notifications(all: Boolean = false) = withContext(Dispatchers.IO) { api.notifications(all) }
+    suspend fun markNotification(id: String) = withContext(Dispatchers.IO) { api.markNotificationRead(id) }
+    suspend fun contributors(owner: String, name: String) = withContext(Dispatchers.IO) { api.contributors(owner, name) }
+    suspend fun languages(owner: String, name: String) = withContext(Dispatchers.IO) { api.languages(owner, name) }
+
+    // ---------- High-level branch helpers ----------
+    suspend fun createBranch(owner: String, name: String, newRef: String, fromBranch: String): GhRef {
+        val src = api.branch(owner, name, fromBranch)
+        return api.createRef(owner, name, CreateRefRequest("refs/heads/$newRef", src.commit.sha))
+    }
+
+    suspend fun deleteBranch(owner: String, name: String, branch: String) {
+        api.deleteRef(owner, name, "heads/$branch")
+    }
+
+    suspend fun renameBranch(owner: String, name: String, oldName: String, newName: String) {
+        val src = api.branch(owner, name, oldName)
+        api.createRef(owner, name, CreateRefRequest("refs/heads/$newName", src.commit.sha))
+        api.deleteRef(owner, name, "heads/$oldName")
+    }
+
+    // ---------- Tree-based multi-file commit (true Git engine via REST) ----------
+    /**
+     * Commit multiple file changes atomically using the Git Data API.
+     * Each entry: path -> bytes (null deletes).
+     */
+    suspend fun commitFiles(
+        owner: String, name: String, branch: String,
+        files: List<Pair<String, ByteArray?>>,
+        message: String,
+        authorName: String? = null, authorEmail: String? = null
+    ): GhCommit = withContext(Dispatchers.IO) {
+        val branchInfo = api.branch(owner, name, branch)
+        val parentSha = branchInfo.commit.sha
+        val parentCommit = api.commitDetail(owner, name, parentSha)
+        val baseTreeSha = parentCommit.commit.tree.sha
+
+        val nodes = mutableListOf<TreeNode>()
+        for ((path, bytes) in files) {
+            if (bytes == null) {
+                nodes += TreeNode(path = path, mode = "100644", type = "blob", sha = null)
+            } else {
+                val b64 = android.util.Base64.encodeToString(bytes, android.util.Base64.NO_WRAP)
+                val blob = api.createBlob(owner, name, CreateBlobRequest(b64, "base64"))
+                nodes += TreeNode(path = path, mode = "100644", type = "blob", sha = blob.sha)
+            }
+        }
+        val tree = api.createTree(owner, name, CreateTreeRequest(baseTree = baseTreeSha, tree = nodes))
+
+        val author = if (authorName != null && authorEmail != null)
+            GhCommitAuthor(authorName, authorEmail, java.time.Instant.now().toString())
+        else null
+
+        val commit = api.createCommit(owner, name, CreateCommitRequest(
+            message = message, tree = tree.sha, parents = listOf(parentSha),
+            author = author, committer = author
+        ))
+        api.updateRef(owner, name, "heads/$branch", UpdateRefRequest(commit.sha, false))
+        commit
+    }
+}

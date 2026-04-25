@@ -1,0 +1,7 @@
+-keepattributes Signature, *Annotation*, EnclosingMethod, InnerClasses
+-keep class kotlinx.serialization.** { *; }
+-keep class com.githubcontrol.data.api.** { *; }
+-keep class org.eclipse.jgit.** { *; }
+-dontwarn org.eclipse.jgit.**
+-dontwarn javax.naming.**
+-dontwarn org.slf4j.**

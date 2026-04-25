@@ -1,0 +1,271 @@
+package com.githubcontrol.data.api
+
+import retrofit2.Response
+import retrofit2.http.*
+
+interface GitHubApi {
+
+    // ---------- User ----------
+    @GET("user") suspend fun me(): GhUser
+    @GET("user/emails") suspend fun myEmails(): List<GhEmail>
+    @GET("users/{user}") suspend fun user(@Path("user") user: String): GhUser
+    @GET("rate_limit") suspend fun rateLimit(): GhRateLimit
+
+    // ---------- Repos ----------
+    @GET("user/repos")
+    suspend fun myRepos(
+        @Query("visibility") visibility: String? = null,
+        @Query("affiliation") affiliation: String = "owner,collaborator,organization_member",
+        @Query("sort") sort: String = "updated",
+        @Query("direction") direction: String = "desc",
+        @Query("per_page") perPage: Int = 30,
+        @Query("page") page: Int = 1
+    ): List<GhRepo>
+
+    @GET("users/{user}/starred")
+    suspend fun myStarred(
+        @Path("user") user: String,
+        @Query("per_page") perPage: Int = 30,
+        @Query("page") page: Int = 1
+    ): List<GhRepo>
+
+    @GET("repos/{owner}/{repo}")
+    suspend fun repo(@Path("owner") owner: String, @Path("repo") repo: String): GhRepo
+
+    @POST("user/repos")
+    suspend fun createRepo(@Body body: CreateRepoRequest): GhRepo
+
+    @PATCH("repos/{owner}/{repo}")
+    suspend fun updateRepo(@Path("owner") owner: String, @Path("repo") repo: String, @Body body: UpdateRepoRequest): GhRepo
+
+    @DELETE("repos/{owner}/{repo}")
+    suspend fun deleteRepo(@Path("owner") owner: String, @Path("repo") repo: String): Response<Unit>
+
+    @POST("repos/{owner}/{repo}/forks")
+    suspend fun forkRepo(@Path("owner") owner: String, @Path("repo") repo: String): GhRepo
+
+    @PUT("user/starred/{owner}/{repo}")
+    suspend fun star(@Path("owner") owner: String, @Path("repo") repo: String): Response<Unit>
+
+    @DELETE("user/starred/{owner}/{repo}")
+    suspend fun unstar(@Path("owner") owner: String, @Path("repo") repo: String): Response<Unit>
+
+    @GET("user/starred/{owner}/{repo}")
+    suspend fun isStarred(@Path("owner") owner: String, @Path("repo") repo: String): Response<Unit>
+
+    @PUT("repos/{owner}/{repo}/subscription")
+    suspend fun watch(@Path("owner") owner: String, @Path("repo") repo: String, @Body body: Map<String, Boolean>): Response<Unit>
+
+    @DELETE("repos/{owner}/{repo}/subscription")
+    suspend fun unwatch(@Path("owner") owner: String, @Path("repo") repo: String): Response<Unit>
+
+    @POST("repos/{owner}/{repo}/transfer")
+    suspend fun transfer(@Path("owner") owner: String, @Path("repo") repo: String, @Body body: TransferRepoRequest): Response<Unit>
+
+    @GET("repos/{owner}/{repo}/contributors")
+    suspend fun contributors(@Path("owner") owner: String, @Path("repo") repo: String, @Query("per_page") perPage: Int = 30): List<GhContributor>
+
+    @GET("repos/{owner}/{repo}/languages")
+    suspend fun languages(@Path("owner") owner: String, @Path("repo") repo: String): Map<String, Long>
+
+    @GET("repos/{owner}/{repo}/stats/commit_activity")
+    suspend fun commitActivity(@Path("owner") owner: String, @Path("repo") repo: String): Response<List<Map<String, kotlinx.serialization.json.JsonElement>>>
+
+    // ---------- Contents ----------
+    @GET("repos/{owner}/{repo}/contents/{path}")
+    suspend fun contents(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Path("path", encoded = true) path: String,
+        @Query("ref") ref: String? = null
+    ): Response<List<GhContent>>
+
+    @GET("repos/{owner}/{repo}/contents/{path}")
+    suspend fun fileContent(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Path("path", encoded = true) path: String,
+        @Query("ref") ref: String? = null
+    ): GhContent
+
+    @GET("repos/{owner}/{repo}/contents")
+    suspend fun rootContents(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Query("ref") ref: String? = null
+    ): List<GhContent>
+
+    @PUT("repos/{owner}/{repo}/contents/{path}")
+    suspend fun putFile(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Path("path", encoded = true) path: String,
+        @Body body: PutFileRequest
+    ): PutFileResponse
+
+    @HTTP(method = "DELETE", path = "repos/{owner}/{repo}/contents/{path}", hasBody = true)
+    suspend fun deleteFile(
+        @Path("owner") owner: String,
+        @Path("repo") repo: String,
+        @Path("path", encoded = true) path: String,
+        @Body body: DeleteFileRequest
+    ): PutFileResponse
+
+    // ---------- Branches & Refs ----------
+    @GET("repos/{owner}/{repo}/branches")
+    suspend fun branches(@Path("owner") owner: String, @Path("repo") repo: String, @Query("per_page") perPage: Int = 100): List<GhBranch>
+
+    @GET("repos/{owner}/{repo}/branches/{branch}")
+    suspend fun branch(@Path("owner") owner: String, @Path("repo") repo: String, @Path("branch") branch: String): GhBranch
+
+    @GET("repos/{owner}/{repo}/git/ref/{ref}")
+    suspend fun ref(@Path("owner") owner: String, @Path("repo") repo: String, @Path("ref", encoded = true) ref: String): GhRef
+
+    @POST("repos/{owner}/{repo}/git/refs")
+    suspend fun createRef(@Path("owner") owner: String, @Path("repo") repo: String, @Body body: CreateRefRequest): GhRef
+
+    @PATCH("repos/{owner}/{repo}/git/refs/{ref}")
+    suspend fun updateRef(@Path("owner") owner: String, @Path("repo") repo: String, @Path("ref", encoded = true) ref: String, @Body body: UpdateRefRequest): GhRef
+
+    @DELETE("repos/{owner}/{repo}/git/refs/{ref}")
+    suspend fun deleteRef(@Path("owner") owner: String, @Path("repo") repo: String, @Path("ref", encoded = true) ref: String): Response<Unit>
+
+    @POST("repos/{owner}/{repo}/git/blobs")
+    suspend fun createBlob(@Path("owner") owner: String, @Path("repo") repo: String, @Body body: CreateBlobRequest): GhBlob
+
+    @POST("repos/{owner}/{repo}/git/trees")
+    suspend fun createTree(@Path("owner") owner: String, @Path("repo") repo: String, @Body body: CreateTreeRequest): GhTreeRef
+
+    @POST("repos/{owner}/{repo}/git/commits")
+    suspend fun createCommit(@Path("owner") owner: String, @Path("repo") repo: String, @Body body: CreateCommitRequest): GhCommit
+
+    @GET("repos/{owner}/{repo}/git/trees/{sha}")
+    suspend fun gitTree(@Path("owner") owner: String, @Path("repo") repo: String, @Path("sha") sha: String, @Query("recursive") recursive: Int = 0): GhFileTree
+
+    // ---------- Commits ----------
+    @GET("repos/{owner}/{repo}/commits")
+    suspend fun commits(
+        @Path("owner") owner: String, @Path("repo") repo: String,
+        @Query("sha") sha: String? = null,
+        @Query("path") path: String? = null,
+        @Query("author") author: String? = null,
+        @Query("per_page") perPage: Int = 30,
+        @Query("page") page: Int = 1
+    ): List<GhCommit>
+
+    @GET("repos/{owner}/{repo}/commits/{sha}")
+    suspend fun commitDetail(@Path("owner") owner: String, @Path("repo") repo: String, @Path("sha") sha: String): GhCommit
+
+    @GET("repos/{owner}/{repo}/compare/{base}...{head}")
+    suspend fun compare(@Path("owner") owner: String, @Path("repo") repo: String, @Path("base") base: String, @Path("head") head: String): GhCommitCompare
+
+    // ---------- Pull Requests ----------
+    @GET("repos/{owner}/{repo}/pulls")
+    suspend fun pullRequests(
+        @Path("owner") owner: String, @Path("repo") repo: String,
+        @Query("state") state: String = "open",
+        @Query("sort") sort: String = "created",
+        @Query("direction") direction: String = "desc",
+        @Query("per_page") perPage: Int = 30,
+        @Query("page") page: Int = 1
+    ): List<GhPullRequest>
+
+    @GET("repos/{owner}/{repo}/pulls/{number}")
+    suspend fun pullRequest(@Path("owner") owner: String, @Path("repo") repo: String, @Path("number") number: Int): GhPullRequest
+
+    @POST("repos/{owner}/{repo}/pulls")
+    suspend fun createPullRequest(@Path("owner") owner: String, @Path("repo") repo: String, @Body body: CreatePRRequest): GhPullRequest
+
+    @PATCH("repos/{owner}/{repo}/pulls/{number}")
+    suspend fun updatePullRequest(@Path("owner") owner: String, @Path("repo") repo: String, @Path("number") number: Int, @Body body: UpdatePRRequest): GhPullRequest
+
+    @PUT("repos/{owner}/{repo}/pulls/{number}/merge")
+    suspend fun mergePullRequest(@Path("owner") owner: String, @Path("repo") repo: String, @Path("number") number: Int, @Body body: MergePRRequest): Response<Unit>
+
+    @GET("repos/{owner}/{repo}/pulls/{number}/files")
+    suspend fun pullRequestFiles(@Path("owner") owner: String, @Path("repo") repo: String, @Path("number") number: Int): List<GhCommitFile>
+
+    @GET("repos/{owner}/{repo}/pulls/{number}/commits")
+    suspend fun pullRequestCommits(@Path("owner") owner: String, @Path("repo") repo: String, @Path("number") number: Int): List<GhCommit>
+
+    // ---------- Issues ----------
+    @GET("repos/{owner}/{repo}/issues")
+    suspend fun issues(
+        @Path("owner") owner: String, @Path("repo") repo: String,
+        @Query("state") state: String = "open",
+        @Query("sort") sort: String = "created",
+        @Query("direction") direction: String = "desc",
+        @Query("per_page") perPage: Int = 30,
+        @Query("page") page: Int = 1
+    ): List<GhIssue>
+
+    @GET("repos/{owner}/{repo}/issues/{number}")
+    suspend fun issue(@Path("owner") owner: String, @Path("repo") repo: String, @Path("number") number: Int): GhIssue
+
+    @POST("repos/{owner}/{repo}/issues")
+    suspend fun createIssue(@Path("owner") owner: String, @Path("repo") repo: String, @Body body: CreateIssueRequest): GhIssue
+
+    @PATCH("repos/{owner}/{repo}/issues/{number}")
+    suspend fun updateIssue(@Path("owner") owner: String, @Path("repo") repo: String, @Path("number") number: Int, @Body body: UpdateIssueRequest): GhIssue
+
+    @GET("repos/{owner}/{repo}/issues/{number}/comments")
+    suspend fun issueComments(@Path("owner") owner: String, @Path("repo") repo: String, @Path("number") number: Int): List<IssueComment>
+
+    @POST("repos/{owner}/{repo}/issues/{number}/comments")
+    suspend fun addIssueComment(@Path("owner") owner: String, @Path("repo") repo: String, @Path("number") number: Int, @Body body: CreateCommentRequest): IssueComment
+
+    // ---------- Workflows / Actions ----------
+    @GET("repos/{owner}/{repo}/actions/workflows")
+    suspend fun workflows(@Path("owner") owner: String, @Path("repo") repo: String): GhWorkflowsResponse
+
+    @GET("repos/{owner}/{repo}/actions/runs")
+    suspend fun workflowRuns(
+        @Path("owner") owner: String, @Path("repo") repo: String,
+        @Query("per_page") perPage: Int = 30,
+        @Query("page") page: Int = 1
+    ): GhWorkflowRunsResponse
+
+    @POST("repos/{owner}/{repo}/actions/workflows/{id}/dispatches")
+    suspend fun dispatchWorkflow(
+        @Path("owner") owner: String, @Path("repo") repo: String, @Path("id") id: Long,
+        @Body body: Map<String, @JvmSuppressWildcards Any>
+    ): Response<Unit>
+
+    @GET("repos/{owner}/{repo}/actions/runs/{run_id}/logs")
+    suspend fun workflowRunLogs(@Path("owner") owner: String, @Path("repo") repo: String, @Path("run_id") runId: Long): Response<okhttp3.ResponseBody>
+
+    // ---------- Releases ----------
+    @GET("repos/{owner}/{repo}/releases")
+    suspend fun releases(@Path("owner") owner: String, @Path("repo") repo: String): List<GhRelease>
+
+    // ---------- Notifications ----------
+    @GET("notifications")
+    suspend fun notifications(@Query("all") all: Boolean = false, @Query("per_page") perPage: Int = 50): List<GhNotification>
+
+    @PUT("notifications/threads/{id}")
+    suspend fun markNotificationRead(@Path("id") id: String): Response<Unit>
+
+    // ---------- Search ----------
+    @GET("search/repositories")
+    suspend fun searchRepos(
+        @Query("q") q: String,
+        @Query("sort") sort: String? = null,
+        @Query("order") order: String = "desc",
+        @Query("per_page") perPage: Int = 30,
+        @Query("page") page: Int = 1
+    ): GhSearchReposResponse
+
+    @GET("search/code")
+    suspend fun searchCode(
+        @Query("q") q: String,
+        @Query("per_page") perPage: Int = 30,
+        @Query("page") page: Int = 1
+    ): GhSearchCodeResponse
+
+    @GET("search/users")
+    suspend fun searchUsers(
+        @Query("q") q: String,
+        @Query("per_page") perPage: Int = 30,
+        @Query("page") page: Int = 1
+    ): GhSearchUsersResponse
+}
