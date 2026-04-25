@@ -355,6 +355,21 @@ fun AppRoot() {
             composable(Routes.APPEARANCE) {
                 com.githubcontrol.ui.screens.settings.AppearanceScreen(main = main, onBack = { nav.popBackStack() })
             }
+            composable(Routes.ABOUT) {
+                com.githubcontrol.ui.screens.about.AboutScreen(
+                    onBack = { nav.popBackStack() },
+                    onCheckUpdates = { /* AboutScreen handles its own check */ },
+                    onClearCache = { com.githubcontrol.utils.Logger.clear() }
+                )
+            }
+            composable(Routes.HEALTH) {
+                val um = androidx.hilt.navigation.compose.hiltViewModel<com.githubcontrol.viewmodel.UploadManagerHolder>().uploadManager
+                com.githubcontrol.ui.screens.health.HealthScreen(
+                    main = main,
+                    uploadManager = um,
+                    onBack = { nav.popBackStack() }
+                )
+            }
         }
     }
 }

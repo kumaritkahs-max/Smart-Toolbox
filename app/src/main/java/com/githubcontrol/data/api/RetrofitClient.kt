@@ -31,9 +31,26 @@ class RetrofitClient @Inject constructor(
     }
 
     private val rateLimitInterceptor = Interceptor { chain ->
-        val resp = chain.proceed(chain.request())
+        var resp = chain.proceed(chain.request())
         resp.header("X-RateLimit-Remaining")?.toIntOrNull()?.let { rem ->
             accountManager.updateRateRemaining(rem)
+        }
+        // If GitHub says we're rate-limited, look at how long we should wait
+        // (X-RateLimit-Reset is epoch-seconds; secondary limits use Retry-After
+        // in seconds). Auto-delay up to 30s and try again once.
+        if (resp.code == 403 || resp.code == 429) {
+            val retryAfter = resp.header("Retry-After")?.toLongOrNull()
+            val resetEpoch = resp.header("X-RateLimit-Reset")?.toLongOrNull()
+            val waitSec = retryAfter ?: resetEpoch?.let { it - System.currentTimeMillis() / 1000 } ?: 0L
+            if (waitSec in 1..30) {
+                Logger.w("HTTP", "rate-limited — waiting ${waitSec}s before one retry")
+                resp.close()
+                runCatching { Thread.sleep(waitSec * 1000) }
+                resp = chain.proceed(chain.request())
+                resp.header("X-RateLimit-Remaining")?.toIntOrNull()?.let { rem ->
+                    accountManager.updateRateRemaining(rem)
+                }
+            }
         }
         // Cache the active token's scopes whenever the server reports them.
         resp.header("X-OAuth-Scopes")?.let { scopesHeader ->

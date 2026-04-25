@@ -111,6 +111,46 @@ download from the run summary.
   Monokai, Nord, Matrix
 - One-tap **Reset to defaults**
 
+### Reliability & recovery
+
+- **Friendly error envelope** (`utils/AppError`) maps every network failure to a
+  human sentence with a retry hint (offline, timeout, auth expired, forbidden,
+  rate-limited, push rejected, conflict, server error)
+- **Reusable error banner** with one-tap retry — same look on every screen
+- **Type-to-confirm** dialog for destructive actions (wipe data, delete repo)
+  requires you to type the resource name before the button enables
+- **Auto-rate-limit handling** — the HTTP layer reads `X-RateLimit-Reset` and
+  `Retry-After`, sleeps up to 30 s, and retries the request once
+- **Crash recovery** — last route + active upload snapshot are persisted to
+  SharedPreferences so the next launch can resume cleanly
+- **In-app debug log** with severity levels (DEBUG/INFO/WARN/ERROR/NET) viewable
+  from the terminal panel
+
+### Health & status dashboard
+- One-glance card layout: GitHub API rate budget, current upload progress
+  (done / failed / skipped / total + current file), error count + last 5 entries,
+  resumable-upload state, last activity time, active account
+
+### Backup & restore
+- **Export settings** to a JSON file via the system file picker — appearance,
+  security toggles, author identity, account list (login, name, scopes; **no
+  tokens**)
+- **Import settings** from the same JSON to bootstrap a new device
+- After importing you re-paste your PAT — tokens are intentionally never
+  serialized
+
+### Update check
+- "Check for updates" in **Settings → Updates** and on **About** queries the
+  GitHub Releases API for the configured repo and reports whether a newer tag
+  is available, with a link to the release notes
+
+### About screen
+- Nine cards modelled on the published spec: identity (logo + version), about,
+  limitations, developer (GitHub + email), version + Android compatibility,
+  links (repo + issues), libraries used, technical info, quick actions
+  (check updates, report issue, clear cache). Tap the version five times to
+  reveal a **debug** badge.
+
 ### Home-screen widget
 - Material 3 launcher widget with Open and Refresh actions
 - Subtitle reflects the latest published status (login, last sync, etc.)
@@ -130,14 +170,37 @@ Declared in `AndroidManifest.xml` and surfaced in **Settings → Permissions**:
 
 ## First run
 
-1. Generate a PAT at <https://github.com/settings/tokens>.
-   Recommended classic scopes: **`repo`, `workflow`, `read:user`, `notifications`,
-   `delete_repo`** (only if you want delete).
-2. Paste the token on the first screen and tap **Sign in**.
-3. Enable biometric unlock from **Settings → Security** if you want it.
-4. Visit **Settings → Permissions** to grant any system permissions you want
+1. Open the app — the sign-in screen has an interactive **"How to create a
+   Personal Access Token"** card with a step-by-step guide for both classic and
+   fine-grained tokens.
+2. Tap **Open GitHub with all scopes pre-selected** — this opens
+   `github.com/settings/tokens/new` with every recommended scope already ticked.
+   Set an expiry, click **Generate token**, and copy the result.
+3. Paste the token in the field above the guide. Tap **Validate** to see the
+   granted scopes + rate limit, then **Sign in**.
+4. Enable biometric unlock from **Settings → Security** if you want it.
+5. Visit **Settings → Permissions** to grant any system permissions you want
    (the app only requests them on demand otherwise).
-5. Customise look-and-feel from **Settings → Appearance**.
+6. Customise look-and-feel from **Settings → Appearance**.
+
+### Recommended PAT scopes
+
+Pre-filled by the in-app guide; documented here for transparency:
+
+| Scope | Why the app needs it |
+|-------|----------------------|
+| `repo` | Read & write code, commits, branches, PRs, issues, webhooks |
+| `workflow` | Edit `.github/workflows` YAML files |
+| `user` | Read & edit your GitHub profile |
+| `read:org` | List organisations and team membership |
+| `notifications` | Read and mark GitHub notifications |
+| `write:public_key` | Add SSH keys from the SSH key screen |
+| `write:discussion` | Create / edit team discussions |
+| `delete_repo` | Permanent repo deletion (destructive — opt-in) |
+| `gist` | Create, edit, delete your gists |
+
+> **Fine-grained tokens** can do everything except `delete_repo`. The in-app
+> guide lists the equivalent repository + account permissions to enable.
 
 ## Project layout
 
