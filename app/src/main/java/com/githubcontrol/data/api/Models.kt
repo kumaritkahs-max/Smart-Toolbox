@@ -18,7 +18,9 @@ data class GhUser(
     val followers: Int = 0,
     val following: Int = 0,
     @SerialName("created_at") val createdAt: String? = null,
-    @SerialName("type") val type: String = "User"
+    @SerialName("type") val type: String = "User",
+    @SerialName("twitter_username") val twitterUsername: String? = null,
+    val hireable: Boolean? = null
 )
 
 @Serializable
