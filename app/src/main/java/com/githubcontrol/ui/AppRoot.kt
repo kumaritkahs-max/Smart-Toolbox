@@ -88,7 +88,10 @@ fun AppRoot() {
             }
             val current = nav.currentDestination?.route
             if (current != target && current?.substringBefore('/') != target.substringBefore('/')) {
-                nav.navigate(target) { popUpTo(0) { inclusive = true } }
+                val clearHistory = target != Routes.LOGIN || !addingAccount
+                nav.navigate(target) {
+                    if (clearHistory) popUpTo(0) { inclusive = true }
+                }
             }
         }
 
@@ -296,7 +299,7 @@ fun AppRoot() {
             composable(Routes.ACCOUNTS) {
                 AccountsScreen(main, onBack = { nav.popBackStack() }, onAdd = {
                     main.beginAddAccount()
-                    nav.navigate(Routes.LOGIN) { popUpTo(0) { inclusive = true } }
+                    nav.navigate(Routes.LOGIN)
                 })
             }
             composable(Routes.COMMAND) { CommandScreen(onBack = { nav.popBackStack() }) }
