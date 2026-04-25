@@ -1,15 +1,19 @@
 package com.githubcontrol
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.fragment.app.FragmentActivity
 import com.githubcontrol.ui.AppRoot
 import dagger.hilt.android.AndroidEntryPoint
 
+// FragmentActivity (which extends ComponentActivity) is required so that
+// androidx.biometric.BiometricPrompt can attach its dialog fragment for the
+// unlock flow used by [BiometricScreen]. Plain ComponentActivity silently
+// falls through to "auto-unlock", defeating the security gate.
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
