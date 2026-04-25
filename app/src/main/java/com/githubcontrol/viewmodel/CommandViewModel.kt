@@ -8,6 +8,7 @@ import com.githubcontrol.data.auth.AccountManager
 import com.githubcontrol.data.db.AppDatabase
 import com.githubcontrol.data.db.CommandHistoryEntity
 import com.githubcontrol.data.repository.GitHubRepository
+import com.githubcontrol.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,7 +39,10 @@ class CommandViewModel @Inject constructor(
         if (raw.isEmpty()) return
         _state.value = _state.value.copy(running = true)
         viewModelScope.launch {
+            Logger.i("Command", "$ $raw")
             val out = execute(raw)
+            if (out.ok) Logger.i("Command", out.output.lineSequence().firstOrNull().orEmpty())
+            else Logger.e("Command", out.output)
             val accId = accounts.activeAccount()?.id ?: "anon"
             db.commandHistory().insert(CommandHistoryEntity(accountId = accId, command = raw, output = out.output, success = out.ok))
             _state.value = CommandState(input = "", lines = _state.value.lines + CommandLine(raw, out.output, out.ok), running = false)

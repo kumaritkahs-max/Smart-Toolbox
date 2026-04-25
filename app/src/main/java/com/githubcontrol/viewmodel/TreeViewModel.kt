@@ -1,13 +1,18 @@
 package com.githubcontrol.viewmodel
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.githubcontrol.data.api.GhFileTreeItem
 import com.githubcontrol.data.repository.GitHubRepository
+import com.githubcontrol.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 data class TreeNodeUi(
@@ -66,7 +71,56 @@ class TreeViewModel @Inject constructor(private val repo: GitHubRepository) : Vi
         })
     }
 
+    fun selectAllBlobs() {
+        _state.value = _state.value.copy(items = _state.value.items.map {
+            if (it.type == "blob") it.copy(selected = true) else it
+        })
+    }
+
+    fun clearSelection() {
+        _state.value = _state.value.copy(items = _state.value.items.map { it.copy(selected = false) })
+    }
+
     fun selectedPaths(): List<String> = _state.value.items.filter { it.selected && it.type == "blob" }.map { it.path }
+
+    /** Stream the repo zipball from GitHub directly into a SAF Uri. */
+    fun downloadRepoZip(owner: String, name: String, ref: String, ctx: Context, output: Uri) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                Logger.i("Tree", "downloading zipball $owner/$name@$ref")
+                val resp = repo.zipball(owner, name, ref)
+                if (!resp.isSuccessful) {
+                    Logger.e("Tree", "zipball HTTP ${resp.code()}")
+                    return@launch
+                }
+                val body = resp.body() ?: return@launch
+                ctx.contentResolver.openOutputStream(output)?.use { out ->
+                    body.byteStream().use { input -> input.copyTo(out) }
+                }
+                Logger.i("Tree", "zipball saved to $output")
+            } catch (t: Throwable) {
+                Logger.e("Tree", "zipball failed", t)
+            }
+        }
+    }
+
+    /** Bulk delete selected blob paths via a single tree commit. */
+    suspend fun deleteSelected(owner: String, name: String, branch: String) {
+        val paths = selectedPaths()
+        if (paths.isEmpty()) return
+        Logger.w("Tree", "deleting ${paths.size} file(s) from $owner/$name@$branch")
+        val joined: List<Pair<String, ByteArray?>> = paths.map { it to null }
+        try {
+            withContext(Dispatchers.IO) {
+                repo.commitFiles(owner, name, branch, joined, "Delete ${paths.size} file(s) from device", null, null)
+            }
+            Logger.i("Tree", "delete commit ok")
+            clearSelection()
+            load(owner, name, branch)
+        } catch (t: Throwable) {
+            Logger.e("Tree", "delete commit failed", t)
+        }
+    }
 
     private fun computeVisibility(items: List<TreeNodeUi>, expanded: MutableSet<String>): List<TreeNodeUi> {
         return items.map { node ->

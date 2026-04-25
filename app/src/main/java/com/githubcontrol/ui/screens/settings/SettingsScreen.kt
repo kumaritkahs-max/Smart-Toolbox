@@ -47,13 +47,20 @@ fun SettingsScreen(main: MainViewModel, onBack: () -> Unit, onNavigate: (String)
                 Button(onClick = { main.lock() }, modifier = Modifier.padding(8.dp)) { Text("Lock now") }
             }
             GhCard {
+                Text("Account", style = MaterialTheme.typography.titleMedium)
+                Spacer(Modifier.height(4.dp))
+                TextButton(onClick = { onNavigate(Routes.ACCOUNTS) }, modifier = Modifier.fillMaxWidth()) { Text("Manage accounts & tokens") }
+                TextButton(onClick = { onNavigate(Routes.PROFILE_EDIT) }, modifier = Modifier.fillMaxWidth()) { Text("Edit GitHub profile") }
+                TextButton(onClick = { onNavigate(Routes.SSH_KEYS) }, modifier = Modifier.fillMaxWidth()) { Text("SSH keys") }
+            }
+            GhCard {
                 Text("Tools", style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(4.dp))
-                TextButton(onClick = { onNavigate(Routes.ACCOUNTS) }, modifier = Modifier.fillMaxWidth()) { Text("Manage accounts") }
                 TextButton(onClick = { onNavigate(Routes.SYNC) }, modifier = Modifier.fillMaxWidth()) { Text("Sync jobs") }
                 TextButton(onClick = { onNavigate(Routes.PLUGINS) }, modifier = Modifier.fillMaxWidth()) { Text("Plugins") }
                 TextButton(onClick = { onNavigate(Routes.DOWNLOADS) }, modifier = Modifier.fillMaxWidth()) { Text("Downloads") }
                 TextButton(onClick = { onNavigate(Routes.COMMAND) }, modifier = Modifier.fillMaxWidth()) { Text("Command Mode") }
+                TextButton(onClick = { onNavigate(Routes.LOGS) }, modifier = Modifier.fillMaxWidth()) { Text("Terminal log") }
             }
             GhCard {
                 Text("Danger zone", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.error)

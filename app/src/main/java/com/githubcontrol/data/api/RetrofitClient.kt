@@ -1,13 +1,12 @@
 package com.githubcontrol.data.api
 
 import com.githubcontrol.data.auth.AccountManager
+import com.githubcontrol.utils.Logger
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
-import okhttp3.Response
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
@@ -36,14 +35,48 @@ class RetrofitClient @Inject constructor(
         resp.header("X-RateLimit-Remaining")?.toIntOrNull()?.let { rem ->
             accountManager.updateRateRemaining(rem)
         }
+        // Cache the active token's scopes whenever the server reports them.
+        resp.header("X-OAuth-Scopes")?.let { scopesHeader ->
+            val scopes = scopesHeader.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+            if (scopes.isNotEmpty()) {
+                runBlocking {
+                    accountManager.activeAccount()?.let { acc ->
+                        if (acc.scopes != scopes) accountManager.updateScopes(acc.id, scopes)
+                    }
+                }
+            }
+        }
         resp
+    }
+
+    /**
+     * Custom logging interceptor that pipes every HTTP exchange into the in-app
+     * [Logger] so the terminal panels can show real network traffic. We never
+     * log the Authorization header value here — Logger redacts it as a safety
+     * net but we drop it explicitly anyway.
+     */
+    private val terminalLogInterceptor = Interceptor { chain ->
+        val req = chain.request()
+        val started = System.currentTimeMillis()
+        Logger.net("HTTP", "→ ${req.method} ${req.url.encodedPath}${req.url.query?.let { "?$it" } ?: ""}")
+        try {
+            val resp = chain.proceed(req)
+            val ms = System.currentTimeMillis() - started
+            val rate = resp.header("X-RateLimit-Remaining")
+            val rateStr = if (rate != null) "  rl=$rate" else ""
+            Logger.net("HTTP", "← ${resp.code} ${req.method} ${req.url.encodedPath}  ${ms}ms$rateStr")
+            resp
+        } catch (t: Throwable) {
+            Logger.e("HTTP", "✕ ${req.method} ${req.url.encodedPath} :: ${t.javaClass.simpleName}: ${t.message}")
+            throw t
+        }
     }
 
     private val client by lazy {
         OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
             .addInterceptor(rateLimitInterceptor)
-            .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC })
+            .addInterceptor(terminalLogInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(120, TimeUnit.SECONDS)

@@ -65,7 +65,7 @@ class MainViewModel @Inject constructor(
             _loginError.value = null
             val result = withContext(Dispatchers.IO) { TokenValidator.validate(token) }
             if (!result.ok || result.login == null) {
-                _loginError.value = result.error ?: "Invalid token"
+                _loginError.value = result.error ?: "Invalid token (${result.validation.httpCode ?: "no response"})"
                 _loginBusy.value = false
                 return@launch
             }
@@ -76,7 +76,11 @@ class MainViewModel @Inject constructor(
                 name = result.name,
                 email = result.email,
                 token = token,
-                scopes = result.scopes
+                scopes = result.scopes,
+                tokenType = result.validation.tokenType,
+                tokenExpiry = result.validation.tokenExpiry,
+                lastValidatedAt = result.validation.ts,
+                validations = listOf(result.validation)
             )
             accountManager.addOrReplaceAccount(acc, makeActive = true)
             sessionGate.unlock()
@@ -85,6 +89,19 @@ class MainViewModel @Inject constructor(
             onDone()
         }
     }
+
+    /** Re-validate the active account's token. Returns the freshly stored validation. */
+    suspend fun revalidateActive(): com.githubcontrol.data.auth.TokenValidation? {
+        val acc = accountManager.activeAccount() ?: return null
+        val res = withContext(Dispatchers.IO) { TokenValidator.validate(acc.token) }
+        accountManager.recordValidation(acc.id, res.validation)
+        refresh()
+        return res.validation
+    }
+
+    /** Validate an arbitrary token without saving it (used by the rich login form preview). */
+    suspend fun previewValidate(token: String): TokenValidator.Result =
+        withContext(Dispatchers.IO) { TokenValidator.validate(token) }
 
     fun unlock() { sessionGate.unlock(); refresh() }
     fun lock() { sessionGate.lock(); refresh() }

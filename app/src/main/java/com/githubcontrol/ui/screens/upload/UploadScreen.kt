@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.githubcontrol.ui.components.EmbeddedTerminal
 import com.githubcontrol.ui.components.GhBadge
 import com.githubcontrol.ui.components.GhCard
 import com.githubcontrol.upload.ConflictMode
@@ -109,6 +110,7 @@ fun UploadScreen(owner: String, name: String, path: String, ref: String, onBack:
                 Icon(Icons.Filled.CloudUpload, null); Spacer(Modifier.width(6.dp))
                 Text(if (form.dryRun) "Run preview" else "Start upload")
             }
+            EmbeddedTerminal(section = "Upload", initiallyExpanded = progress.running)
             if (progress.files.isNotEmpty()) {
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.heightIn(max = 400.dp)) {
                     items(progress.files, key = { it.id }) { uf ->

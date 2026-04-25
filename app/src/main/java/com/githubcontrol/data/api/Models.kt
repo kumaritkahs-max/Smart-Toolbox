@@ -457,3 +457,141 @@ data class CreateCommitRequest(
     val author: GhCommitAuthor? = null,
     val committer: GhCommitAuthor? = null
 )
+
+// ---------- Branch protection ----------
+
+@Serializable
+data class BranchProtection(
+    val url: String? = null,
+    @SerialName("required_status_checks") val requiredStatusChecks: RequiredStatusChecks? = null,
+    @SerialName("enforce_admins") val enforceAdmins: BoolWrapper? = null,
+    @SerialName("required_pull_request_reviews") val requiredReviews: RequiredReviews? = null,
+    val restrictions: BranchRestrictions? = null,
+    @SerialName("allow_force_pushes") val allowForcePushes: BoolWrapper? = null,
+    @SerialName("allow_deletions") val allowDeletions: BoolWrapper? = null,
+    @SerialName("required_linear_history") val requiredLinearHistory: BoolWrapper? = null,
+    @SerialName("required_conversation_resolution") val requiredConversationResolution: BoolWrapper? = null,
+    @SerialName("lock_branch") val lockBranch: BoolWrapper? = null
+)
+
+@Serializable
+data class BoolWrapper(val enabled: Boolean = false)
+
+@Serializable
+data class RequiredStatusChecks(
+    val strict: Boolean = false,
+    val contexts: List<String> = emptyList()
+)
+
+@Serializable
+data class RequiredReviews(
+    @SerialName("required_approving_review_count") val requiredApprovingCount: Int = 1,
+    @SerialName("dismiss_stale_reviews") val dismissStale: Boolean = false,
+    @SerialName("require_code_owner_reviews") val requireCodeOwners: Boolean = false,
+    @SerialName("require_last_push_approval") val requireLastPushApproval: Boolean = false
+)
+
+@Serializable
+data class BranchRestrictions(
+    val users: List<GhUser> = emptyList(),
+    val teams: List<GhTeam> = emptyList()
+)
+
+@Serializable
+data class GhTeam(
+    val id: Long = 0,
+    val name: String,
+    val slug: String,
+    val description: String? = null
+)
+
+@Serializable
+data class UpdateBranchProtectionRequest(
+    @SerialName("required_status_checks") val requiredStatusChecks: RequiredStatusChecks? = null,
+    @SerialName("enforce_admins") val enforceAdmins: Boolean? = null,
+    @SerialName("required_pull_request_reviews") val requiredReviews: UpdateRequiredReviews? = null,
+    val restrictions: UpdateBranchRestrictions? = null,
+    @SerialName("required_linear_history") val requiredLinearHistory: Boolean? = null,
+    @SerialName("allow_force_pushes") val allowForcePushes: Boolean? = null,
+    @SerialName("allow_deletions") val allowDeletions: Boolean? = null,
+    @SerialName("required_conversation_resolution") val requiredConversationResolution: Boolean? = null,
+    @SerialName("lock_branch") val lockBranch: Boolean? = null,
+    @SerialName("block_creations") val blockCreations: Boolean? = null
+)
+
+@Serializable
+data class UpdateRequiredReviews(
+    @SerialName("required_approving_review_count") val requiredApprovingCount: Int = 1,
+    @SerialName("dismiss_stale_reviews") val dismissStale: Boolean = false,
+    @SerialName("require_code_owner_reviews") val requireCodeOwners: Boolean = false,
+    @SerialName("require_last_push_approval") val requireLastPushApproval: Boolean = false
+)
+
+@Serializable
+data class UpdateBranchRestrictions(
+    val users: List<String> = emptyList(),
+    val teams: List<String> = emptyList()
+)
+
+// ---------- SSH keys / GPG keys ----------
+
+@Serializable
+data class GhSshKey(
+    val id: Long,
+    val key: String,
+    val title: String,
+    @SerialName("created_at") val createdAt: String,
+    val verified: Boolean = false,
+    @SerialName("read_only") val readOnly: Boolean = false
+)
+
+@Serializable
+data class CreateSshKeyRequest(val title: String, val key: String)
+
+@Serializable
+data class GhGpgKey(
+    val id: Long,
+    @SerialName("key_id") val keyId: String,
+    @SerialName("public_key") val publicKey: String,
+    @SerialName("can_sign") val canSign: Boolean = false,
+    @SerialName("can_certify") val canCertify: Boolean = false,
+    @SerialName("can_encrypt_comms") val canEncryptComms: Boolean = false,
+    @SerialName("created_at") val createdAt: String
+)
+
+// ---------- Profile updates ----------
+
+@Serializable
+data class UpdateUserRequest(
+    val name: String? = null,
+    val email: String? = null,
+    val blog: String? = null,
+    val bio: String? = null,
+    val company: String? = null,
+    val location: String? = null,
+    val hireable: Boolean? = null,
+    @SerialName("twitter_username") val twitterUsername: String? = null
+)
+
+// ---------- Repo invitations / collaborators ----------
+
+@Serializable
+data class GhCollaborator(
+    val login: String,
+    val id: Long,
+    @SerialName("avatar_url") val avatarUrl: String,
+    val permissions: GhCollaboratorPermissions = GhCollaboratorPermissions(),
+    @SerialName("role_name") val roleName: String? = null
+)
+
+@Serializable
+data class GhCollaboratorPermissions(
+    val pull: Boolean = false,
+    val push: Boolean = false,
+    val admin: Boolean = false,
+    val triage: Boolean = false,
+    val maintain: Boolean = false
+)
+
+@Serializable
+data class AddCollaboratorRequest(val permission: String = "push")

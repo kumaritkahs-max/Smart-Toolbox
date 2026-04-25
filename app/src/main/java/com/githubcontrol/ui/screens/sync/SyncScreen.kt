@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.githubcontrol.data.db.AppDatabase
+import com.githubcontrol.ui.components.EmbeddedTerminal
 import com.githubcontrol.ui.components.GhCard
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -26,19 +27,22 @@ fun SyncScreen(onBack: () -> Unit, vm: SyncViewModel = hiltViewModel()) {
     Scaffold(topBar = {
         TopAppBar(title = { Text("Sync jobs") }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, null) } })
     }) { pad ->
-        if (items.isEmpty()) {
-            Text("No sync jobs yet.", modifier = Modifier.padding(24.dp))
-            return@Scaffold
-        }
-        LazyColumn(Modifier.padding(pad).fillMaxSize(), contentPadding = PaddingValues(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(items, key = { it.id }) { j ->
-                GhCard {
-                    Text("${j.owner}/${j.repo}", style = MaterialTheme.typography.titleMedium)
-                    Text("Local: ${j.localUri}", style = MaterialTheme.typography.bodySmall)
-                    Text("Branch: ${j.branch} • every ${j.intervalMinutes} min", style = MaterialTheme.typography.labelSmall)
-                    Switch(checked = j.enabled, onCheckedChange = { /* TODO toggle via DAO */ })
+        Column(Modifier.padding(pad).fillMaxSize().padding(12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            if (items.isEmpty()) {
+                Text("No sync jobs yet.", modifier = Modifier.padding(8.dp))
+            } else {
+                LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.weight(1f)) {
+                    items(items, key = { it.id }) { j ->
+                        GhCard {
+                            Text("${j.owner}/${j.repo}", style = MaterialTheme.typography.titleMedium)
+                            Text("Local: ${j.localUri}", style = MaterialTheme.typography.bodySmall)
+                            Text("Branch: ${j.branch} • every ${j.intervalMinutes} min", style = MaterialTheme.typography.labelSmall)
+                            Switch(checked = j.enabled, onCheckedChange = { /* TODO toggle via DAO */ })
+                        }
+                    }
                 }
             }
+            EmbeddedTerminal(section = "Sync", initiallyExpanded = true)
         }
     }
 }

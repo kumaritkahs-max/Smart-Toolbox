@@ -23,6 +23,7 @@ class App : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannels()
+        com.githubcontrol.utils.Logger.i("App", "GitHub Control starting v${runCatching { packageManager.getPackageInfo(packageName, 0).versionName }.getOrNull() ?: "?"}")
     }
 
     private fun createNotificationChannels() {

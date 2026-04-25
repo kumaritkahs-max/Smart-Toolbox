@@ -122,6 +122,40 @@ class GitHubRepository @Inject constructor(
         api.deleteRef(owner, name, "heads/$oldName")
     }
 
+    // ---------- Branch protection ----------
+    suspend fun branchProtection(owner: String, name: String, branch: String): BranchProtection? = withContext(Dispatchers.IO) {
+        val r = api.branchProtection(owner, name, branch)
+        if (r.isSuccessful) r.body() else null
+    }
+
+    suspend fun setBranchProtection(owner: String, name: String, branch: String, body: UpdateBranchProtectionRequest) =
+        withContext(Dispatchers.IO) { api.setBranchProtection(owner, name, branch, body) }
+
+    suspend fun removeBranchProtection(owner: String, name: String, branch: String) =
+        withContext(Dispatchers.IO) { api.removeBranchProtection(owner, name, branch) }
+
+    // ---------- SSH / GPG keys ----------
+    suspend fun sshKeys() = withContext(Dispatchers.IO) { api.sshKeys() }
+    suspend fun addSshKey(title: String, key: String) = withContext(Dispatchers.IO) { api.addSshKey(CreateSshKeyRequest(title, key)) }
+    suspend fun deleteSshKey(id: Long) = withContext(Dispatchers.IO) { api.deleteSshKey(id) }
+    suspend fun gpgKeys() = withContext(Dispatchers.IO) { api.gpgKeys() }
+    suspend fun deleteGpgKey(id: Long) = withContext(Dispatchers.IO) { api.deleteGpgKey(id) }
+
+    // ---------- Profile ----------
+    suspend fun updateMe(body: UpdateUserRequest) = withContext(Dispatchers.IO) { api.updateMe(body) }
+
+    // ---------- Collaborators ----------
+    suspend fun collaborators(owner: String, name: String) = withContext(Dispatchers.IO) { api.collaborators(owner, name) }
+    suspend fun addCollaborator(owner: String, name: String, login: String, permission: String) =
+        withContext(Dispatchers.IO) { api.addCollaborator(owner, name, login, AddCollaboratorRequest(permission)) }
+    suspend fun removeCollaborator(owner: String, name: String, login: String) =
+        withContext(Dispatchers.IO) { api.removeCollaborator(owner, name, login) }
+
+    // ---------- Archive download ----------
+    suspend fun zipball(owner: String, name: String, ref: String) = withContext(Dispatchers.IO) { api.zipball(owner, name, ref) }
+    suspend fun tarball(owner: String, name: String, ref: String) = withContext(Dispatchers.IO) { api.tarball(owner, name, ref) }
+    suspend fun rawDownload(url: String) = withContext(Dispatchers.IO) { api.rawDownload(url) }
+
     // ---------- Tree-based multi-file commit (true Git engine via REST) ----------
     /**
      * Commit multiple file changes atomically using the Git Data API.

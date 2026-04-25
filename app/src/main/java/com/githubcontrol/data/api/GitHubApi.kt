@@ -268,4 +268,74 @@ interface GitHubApi {
         @Query("per_page") perPage: Int = 30,
         @Query("page") page: Int = 1
     ): GhSearchUsersResponse
+
+    // ---------- Branch protection ----------
+
+    @GET("repos/{owner}/{repo}/branches/{branch}/protection")
+    suspend fun branchProtection(
+        @Path("owner") owner: String, @Path("repo") repo: String, @Path("branch") branch: String
+    ): Response<BranchProtection>
+
+    @PUT("repos/{owner}/{repo}/branches/{branch}/protection")
+    suspend fun setBranchProtection(
+        @Path("owner") owner: String, @Path("repo") repo: String, @Path("branch") branch: String,
+        @Body body: UpdateBranchProtectionRequest
+    ): BranchProtection
+
+    @DELETE("repos/{owner}/{repo}/branches/{branch}/protection")
+    suspend fun removeBranchProtection(
+        @Path("owner") owner: String, @Path("repo") repo: String, @Path("branch") branch: String
+    ): Response<Unit>
+
+    // ---------- SSH & GPG keys ----------
+
+    @GET("user/keys") suspend fun sshKeys(): List<GhSshKey>
+    @POST("user/keys") suspend fun addSshKey(@Body body: CreateSshKeyRequest): GhSshKey
+    @DELETE("user/keys/{id}") suspend fun deleteSshKey(@Path("id") id: Long): Response<Unit>
+
+    @GET("user/gpg_keys") suspend fun gpgKeys(): List<GhGpgKey>
+    @DELETE("user/gpg_keys/{id}") suspend fun deleteGpgKey(@Path("id") id: Long): Response<Unit>
+
+    // ---------- Profile editor ----------
+
+    @PATCH("user")
+    suspend fun updateMe(@Body body: UpdateUserRequest): GhUser
+
+    // ---------- Collaborators ----------
+
+    @GET("repos/{owner}/{repo}/collaborators")
+    suspend fun collaborators(@Path("owner") owner: String, @Path("repo") repo: String): List<GhCollaborator>
+
+    @PUT("repos/{owner}/{repo}/collaborators/{username}")
+    suspend fun addCollaborator(
+        @Path("owner") owner: String, @Path("repo") repo: String, @Path("username") username: String,
+        @Body body: AddCollaboratorRequest
+    ): Response<Unit>
+
+    @DELETE("repos/{owner}/{repo}/collaborators/{username}")
+    suspend fun removeCollaborator(
+        @Path("owner") owner: String, @Path("repo") repo: String, @Path("username") username: String
+    ): Response<Unit>
+
+    // ---------- Archive download (zip / tarball) ----------
+
+    @GET("repos/{owner}/{repo}/zipball/{ref}")
+    @Streaming
+    suspend fun zipball(
+        @Path("owner") owner: String, @Path("repo") repo: String,
+        @Path("ref", encoded = true) ref: String
+    ): Response<okhttp3.ResponseBody>
+
+    @GET("repos/{owner}/{repo}/tarball/{ref}")
+    @Streaming
+    suspend fun tarball(
+        @Path("owner") owner: String, @Path("repo") repo: String,
+        @Path("ref", encoded = true) ref: String
+    ): Response<okhttp3.ResponseBody>
+
+    // ---------- Raw download (for blob bytes) ----------
+
+    @GET
+    @Streaming
+    suspend fun rawDownload(@Url url: String): Response<okhttp3.ResponseBody>
 }

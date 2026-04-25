@@ -10,6 +10,7 @@ import com.githubcontrol.data.db.AppDatabase
 import com.githubcontrol.data.repository.GitHubRepository
 import com.githubcontrol.notifications.Notifier
 import com.githubcontrol.upload.UploadManager
+import com.githubcontrol.utils.Logger
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
@@ -38,11 +39,16 @@ class SyncWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         val jobs = db.syncJobs().observeEnabled().first()
         val now = System.currentTimeMillis()
+        Logger.i("Sync", "tick: ${jobs.size} active job(s)")
         for (j in jobs) {
             val due = j.lastRun + j.intervalMinutes * 60_000L
             if (now < due) continue
+            Logger.i("Sync", "running ${j.owner}/${j.repo}@${j.branch} → ${j.remotePath}")
             runCatching { syncOne(j.owner, j.repo, j.branch, Uri.parse(j.localUri), j.remotePath) }
-                .onFailure { notifier.alert("Sync failed", "${j.owner}/${j.repo}: ${it.message}") }
+                .onFailure {
+                    Logger.e("Sync", "job ${j.owner}/${j.repo} failed", it)
+                    notifier.alert("Sync failed", "${j.owner}/${j.repo}: ${it.message}")
+                }
             db.syncJobs().update(j.copy(lastRun = now))
         }
         return Result.success()
@@ -73,10 +79,15 @@ class SyncWorker @AssistedInject constructor(
             val rel = if (base.isEmpty()) rpath else rpath.removePrefix("$base/")
             if (!local.containsKey(rel)) joined += rpath to null
         }
-        if (joined.isEmpty()) return
-
+        if (joined.isEmpty()) {
+            Logger.i("Sync", "$owner/$repoName: nothing to do (in sync)")
+            return
+        }
+        val updated = joined.count { it.second != null }
+        val removed = joined.count { it.second == null }
+        Logger.i("Sync", "$owner/$repoName: committing $updated updated, $removed removed")
         repo.commitFiles(owner, repoName, branch, joined, "Sync from device", null, null)
-        notifier.alert("Sync complete", "$owner/$repoName: ${joined.count { it.second != null }} updated, ${joined.count { it.second == null }} removed")
+        notifier.alert("Sync complete", "$owner/$repoName: $updated updated, $removed removed")
     }
 
     private fun walk(dir: DocumentFile, prefix: String, into: MutableMap<String, ByteArray>) {

@@ -7,6 +7,7 @@ import com.githubcontrol.data.api.PutFileRequest
 import com.githubcontrol.data.repository.GitHubRepository
 import com.githubcontrol.notifications.Notifier
 import com.githubcontrol.utils.GitignoreMatcher
+import com.githubcontrol.utils.Logger
 import com.githubcontrol.utils.toBase64
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -119,14 +120,16 @@ class UploadManager @Inject constructor(
         var bytesDone = 0L
         var done = 0
         _state.value = UploadProgress(job, job.files, "", 0, job.files.size, 0, 0.0, 0, true)
+        Logger.i("Upload", "${if (job.dryRun) "DRY-RUN " else ""}start ${job.owner}/${job.repo}@${job.branch} files=${job.files.size} bytes=${job.totalBytes}")
 
         for (uf in job.files) {
-            if (cancelled) break
+            if (cancelled) { Logger.w("Upload", "cancelled at ${uf.targetPath}"); break }
             while (paused && !cancelled) Thread.sleep(150)
             uf.state = UploadFileState.UPLOADING
             _state.value = _state.value.copy(currentFile = uf.targetPath, files = job.files.toList())
             try {
                 if (job.dryRun) {
+                    Logger.d("Upload", "PREVIEW ${uf.targetPath} (${uf.sizeBytes}B)")
                     // Preview-only: do not contact the API, just mark the file as resolved.
                     uf.state = UploadFileState.DONE
                     uf.bytesDone = uf.sizeBytes
@@ -160,9 +163,11 @@ class UploadManager @Inject constructor(
                 uf.state = UploadFileState.DONE
                 uf.bytesDone = uf.sizeBytes
                 bytesDone += uf.sizeBytes
+                Logger.i("Upload", "OK   $finalPath  ${uf.sizeBytes}B")
             } catch (t: Throwable) {
                 uf.state = UploadFileState.FAILED
                 uf.error = t.message
+                Logger.e("Upload", "FAIL ${uf.targetPath}", t)
             }
             done++
             val elapsed = (System.currentTimeMillis() - start) / 1000.0
@@ -178,6 +183,7 @@ class UploadManager @Inject constructor(
         if (!job.dryRun) {
             notifier.uploadDone(ok, "${job.files.count { it.state == UploadFileState.DONE }}/${job.files.size} files")
         }
+        Logger.i("Upload", "${if (job.dryRun) "DRY-RUN " else ""}done ok=$ok done=$done failed=${job.files.count { it.state == UploadFileState.FAILED }} skipped=${job.files.count { it.state == UploadFileState.SKIPPED }}")
         _state.value = _state.value.copy(running = false, finished = true, error = if (ok) null else "Some files failed")
     }
 

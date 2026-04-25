@@ -17,7 +17,13 @@ import com.githubcontrol.ui.screens.actions.ActionsScreen
 import com.githubcontrol.ui.screens.analytics.AnalyticsScreen
 import com.githubcontrol.ui.screens.auth.BiometricScreen
 import com.githubcontrol.ui.screens.auth.LoginScreen
+import com.githubcontrol.ui.screens.branches.BranchProtectionScreen
 import com.githubcontrol.ui.screens.branches.BranchesScreen
+import com.githubcontrol.ui.screens.collab.CollaboratorsScreen
+import com.githubcontrol.ui.screens.compare.CompareScreen
+import com.githubcontrol.ui.screens.keys.SshKeysScreen
+import com.githubcontrol.ui.screens.logs.LogScreen
+import com.githubcontrol.ui.screens.profile.ProfileEditScreen
 import com.githubcontrol.ui.screens.command.CommandScreen
 import com.githubcontrol.ui.screens.commits.CommitDetailScreen
 import com.githubcontrol.ui.screens.commits.CommitsScreen
@@ -275,6 +281,52 @@ fun AppRoot() {
                     owner = back.arguments?.getString("owner") ?: "",
                     name = back.arguments?.getString("name") ?: "",
                     ref = back.arguments?.getString("ref")?.takeIf { it.isNotBlank() },
+                    onBack = { nav.popBackStack() }
+                )
+            }
+            // ---- New routes ----
+            composable(Routes.LOGS) { LogScreen(onBack = { nav.popBackStack() }) }
+            composable(Routes.PROFILE_EDIT) { ProfileEditScreen(onBack = { nav.popBackStack() }) }
+            composable(Routes.SSH_KEYS) { SshKeysScreen(onBack = { nav.popBackStack() }) }
+            composable(
+                Routes.BRANCH_PROTECTION,
+                arguments = listOf(
+                    navArgument("owner") { type = NavType.StringType },
+                    navArgument("name") { type = NavType.StringType },
+                    navArgument("branch") { type = NavType.StringType }
+                )
+            ) { back ->
+                BranchProtectionScreen(
+                    owner = back.arguments?.getString("owner") ?: "",
+                    name = back.arguments?.getString("name") ?: "",
+                    branch = java.net.URLDecoder.decode(back.arguments?.getString("branch") ?: "", "UTF-8"),
+                    onBack = { nav.popBackStack() }
+                )
+            }
+            composable(
+                Routes.COMPARE,
+                arguments = listOf(
+                    navArgument("owner") { type = NavType.StringType },
+                    navArgument("name") { type = NavType.StringType },
+                    navArgument("base") { type = NavType.StringType; defaultValue = "" },
+                    navArgument("head") { type = NavType.StringType; defaultValue = "" }
+                )
+            ) { back ->
+                CompareScreen(
+                    owner = back.arguments?.getString("owner") ?: "",
+                    name = back.arguments?.getString("name") ?: "",
+                    base = java.net.URLDecoder.decode(back.arguments?.getString("base") ?: "", "UTF-8"),
+                    head = java.net.URLDecoder.decode(back.arguments?.getString("head") ?: "", "UTF-8"),
+                    onBack = { nav.popBackStack() }
+                )
+            }
+            composable(
+                Routes.COLLABORATORS,
+                arguments = listOf(navArgument("owner") { type = NavType.StringType }, navArgument("name") { type = NavType.StringType })
+            ) { back ->
+                CollaboratorsScreen(
+                    owner = back.arguments?.getString("owner") ?: "",
+                    name = back.arguments?.getString("name") ?: "",
                     onBack = { nav.popBackStack() }
                 )
             }

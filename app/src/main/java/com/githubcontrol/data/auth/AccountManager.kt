@@ -127,8 +127,25 @@ class AccountManager @Inject constructor(
         }
     }
 
+    /** Append a new validation record to the account's history (kept bounded). */
+    suspend fun recordValidation(id: String, validation: TokenValidation, refreshScopes: Boolean = true) {
+        val list = loadAccounts().toMutableList()
+        val idx = list.indexOfFirst { it.id == id }
+        if (idx < 0) return
+        val current = list[idx]
+        val newHistory = (listOf(validation) + current.validations).take(20)
+        list[idx] = current.copy(
+            validations = newHistory,
+            lastValidatedAt = validation.ts,
+            scopes = if (refreshScopes && validation.ok) validation.scopes.ifEmpty { current.scopes } else current.scopes,
+            tokenType = validation.tokenType ?: current.tokenType,
+            tokenExpiry = validation.tokenExpiry ?: current.tokenExpiry
+        )
+        saveAccounts(list)
+    }
+
     /** Returns the list of recommended scopes that are missing from the active token. */
-    suspend fun missingScopes(required: List<String> = listOf("repo", "workflow", "read:user")): List<String> {
+    suspend fun missingScopes(required: List<String> = ScopeCatalog.recommended): List<String> {
         val have = activeAccount()?.scopes ?: return required
         return required.filterNot { req -> have.any { it == req || it.startsWith("$req:") } }
     }

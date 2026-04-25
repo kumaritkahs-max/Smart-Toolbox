@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.githubcontrol.ui.components.EmbeddedTerminal
 import com.githubcontrol.viewmodel.CommandViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,6 +45,8 @@ fun CommandScreen(onBack: () -> Unit, vm: CommandViewModel = hiltViewModel()) {
                 OutlinedTextField(s.input, { vm.setInput(it) }, modifier = Modifier.weight(1f), placeholder = { Text("Type command…") }, singleLine = true)
                 IconButton(onClick = { vm.run() }, enabled = !s.running) { Icon(Icons.Filled.PlayArrow, null) }
             }
+            Spacer(Modifier.height(6.dp))
+            EmbeddedTerminal(section = "Command")
         }
     }
 }

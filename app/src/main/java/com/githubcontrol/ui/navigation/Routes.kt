@@ -32,6 +32,13 @@ object Routes {
     const val DOWNLOADS = "downloads"
     const val BRANCHES = "branches/{owner}/{name}"
     const val README = "readme/{owner}/{name}?ref={ref}"
+    // New
+    const val LOGS = "logs"
+    const val PROFILE_EDIT = "profile_edit"
+    const val SSH_KEYS = "ssh_keys"
+    const val BRANCH_PROTECTION = "branch_protection/{owner}/{name}/{branch}"
+    const val COMPARE = "compare/{owner}/{name}?base={base}&head={head}"
+    const val COLLABORATORS = "collaborators/{owner}/{name}"
 
     fun repoDetail(owner: String, name: String) = "repo/$owner/$name"
     fun files(owner: String, name: String, path: String = "", ref: String = "") =
@@ -57,4 +64,9 @@ object Routes {
     fun branches(owner: String, name: String) = "branches/$owner/$name"
     fun readme(owner: String, name: String, ref: String = "") =
         "readme/$owner/$name?ref=${java.net.URLEncoder.encode(ref, "UTF-8")}"
+    fun branchProtection(owner: String, name: String, branch: String) =
+        "branch_protection/$owner/$name/${java.net.URLEncoder.encode(branch, "UTF-8")}"
+    fun compare(owner: String, name: String, base: String = "", head: String = "") =
+        "compare/$owner/$name?base=${java.net.URLEncoder.encode(base, "UTF-8")}&head=${java.net.URLEncoder.encode(head, "UTF-8")}"
+    fun collaborators(owner: String, name: String) = "collaborators/$owner/$name"
 }

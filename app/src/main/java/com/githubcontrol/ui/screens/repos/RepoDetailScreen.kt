@@ -125,6 +125,15 @@ fun RepoDetailScreen(
             }
 
             GhCard {
+                Text("Administration", style = MaterialTheme.typography.titleMedium)
+                Spacer(Modifier.height(8.dp))
+                FlowRowSimple {
+                    OutlinedButton(onClick = { onNavigate(Routes.collaborators(owner, name)) }) { Icon(Icons.Filled.Group, null); Spacer(Modifier.width(6.dp)); Text("Collaborators") }
+                    OutlinedButton(onClick = { onNavigate(Routes.branchProtection(owner, name, r.defaultBranch)) }) { Icon(Icons.Filled.Lock, null); Spacer(Modifier.width(6.dp)); Text("Branch protection") }
+                    OutlinedButton(onClick = { onNavigate(Routes.compare(owner, name, r.defaultBranch, "")) }) { Icon(Icons.Filled.CompareArrows, null); Spacer(Modifier.width(6.dp)); Text("Compare") }
+                }
+            }
+            GhCard {
                 Text("Actions", style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(8.dp))
                 FlowRowSimple {
@@ -219,10 +228,12 @@ fun RepoDetailScreen(
     }
 }
 
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
-private fun FlowRowSimple(content: @Composable () -> Unit) {
+private fun FlowRowSimple(content: @Composable androidx.compose.foundation.layout.FlowRowScope.() -> Unit) {
     androidx.compose.foundation.layout.FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) { content() }
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        content = content
+    )
 }
