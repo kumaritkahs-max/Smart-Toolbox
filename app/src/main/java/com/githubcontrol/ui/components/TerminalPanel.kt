@@ -90,7 +90,7 @@ fun EmbeddedTerminal(
             Spacer(Modifier.width(8.dp))
             Text(
                 "Terminal · $section",
-                color = Color(0xFFE6EDF3),
+                color = palette.fg,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 13.sp
             )

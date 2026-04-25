@@ -1,0 +1,355 @@
+18:50:11.636  INFO  [CrashHandler      ] installed → /data/user/0/com.githubcontrol/files/crashes
+18:50:11.641  INFO  [WidgetCtl         ] started — observing upload state
+18:50:11.642  INFO  [App               ] GitHub Control starting v1.0.0
+18:50:15.289  NET   [HTTP              ] → GET /user
+18:50:16.011  NET   [HTTP              ] ← 200 GET /user  722ms  rl=4713
+18:50:16.043  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:50:16.572  NET   [HTTP              ] ← 200 GET /user/repos  529ms  rl=4712
+18:50:16.610  NET   [HTTP              ] → GET /rate_limit
+18:50:17.094  NET   [HTTP              ] ← 200 GET /rate_limit  484ms  rl=4798
+18:50:17.111  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:50:17.523  NET   [HTTP              ] ← 200 GET /notifications  412ms  rl=4711
+18:50:19.097  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app
+18:50:19.483  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app  386ms  rl=4797
+18:50:19.517  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/plain-app
+18:50:19.826  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/plain-app  309ms  rl=4796
+18:50:19.854  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:50:20.287  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  433ms  rl=4710
+18:50:20.398  NET   [HTTP              ] → GET /user
+18:50:20.451  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contributors?per_page=30
+18:50:20.890  NET   [HTTP              ] ← 200 GET /user  492ms  rl=4709
+18:50:20.894  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contributors  443ms  rl=4708
+18:50:20.952  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:50:21.353  NET   [HTTP              ] ← 200 GET /user/repos  401ms  rl=4707
+18:50:21.384  NET   [HTTP              ] → GET /rate_limit
+18:50:21.734  NET   [HTTP              ] ← 200 GET /rate_limit  350ms  rl=4796
+18:50:21.751  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:50:22.104  NET   [HTTP              ] ← 200 GET /notifications  353ms  rl=4706
+18:50:23.631  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing
+18:50:24.138  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing  508ms  rl=4795
+18:50:24.169  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/testing
+18:50:24.478  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/testing  308ms  rl=4794
+18:50:24.490  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:50:24.879  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  389ms  rl=4705
+18:50:24.914  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contributors?per_page=30
+18:50:25.414  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contributors  499ms  rl=4704
+18:50:25.451  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/languages
+18:50:25.857  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/languages  406ms  rl=4703
+18:50:30.610  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:50:30.998  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  388ms  rl=4702
+18:50:31.026  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/.gitignore?ref=main
+18:50:31.328  NET   [HTTP              ] ← 404 GET /repos/kumaritkahs-max/testing/contents/.gitignore  303ms  rl=4793
+18:50:58.785  INFO  [Upload            ] start kumaritkahs-max/testing@main files=7 bytes=0
+18:50:58.884  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing/Health/MRI.pdf?ref=main
+18:50:59.479  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing/Health/MRI.pdf  594ms  rl=4792
+18:50:59.627  NET   [HTTP              ] → PUT /repos/kumaritkahs-max/testing/contents/testing/Health/MRI.pdf
+18:51:03.155  NET   [HTTP              ] ← 200 PUT /repos/kumaritkahs-max/testing/contents/testing/Health/MRI.pdf  3528ms  rl=4791
+18:51:03.177  ERROR [Upload            ] FAIL testing/Health/MRI.pdf :: MissingFieldException: Fields [login, id, avatar_url] are required for type with serial name 'com.githubcontrol.data.api.GhUser', but they were missing at path: $.commit.author
+18:51:03.254  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing/Health/ESR%20level.pdf?ref=main
+18:51:03.647  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing/Health/ESR%20level.pdf  393ms  rl=4790
+18:51:03.749  NET   [HTTP              ] → PUT /repos/kumaritkahs-max/testing/contents/testing/Health/ESR%20level.pdf
+18:51:06.535  NET   [HTTP              ] ← 200 PUT /repos/kumaritkahs-max/testing/contents/testing/Health/ESR%20level.pdf  2786ms  rl=4789
+18:51:06.564  ERROR [Upload            ] FAIL testing/Health/ESR level.pdf :: MissingFieldException: Fields [login, id, avatar_url] are required for type with serial name 'com.githubcontrol.data.api.GhUser', but they were missing at path: $.commit.author
+18:51:06.649  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing/Health/Complete%20blood%20count.pdf?ref=main
+18:51:07.021  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing/Health/Complete%20blood%20count.pdf  372ms  rl=4788
+18:51:07.127  NET   [HTTP              ] → PUT /repos/kumaritkahs-max/testing/contents/testing/Health/Complete%20blood%20count.pdf
+18:51:09.850  NET   [HTTP              ] ← 200 PUT /repos/kumaritkahs-max/testing/contents/testing/Health/Complete%20blood%20count.pdf  2723ms  rl=4787
+18:51:09.862  ERROR [Upload            ] FAIL testing/Health/Complete blood count.pdf :: MissingFieldException: Fields [login, id, avatar_url] are required for type with serial name 'com.githubcontrol.data.api.GhUser', but they were missing at path: $.commit.author
+18:51:09.903  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing/Health/caste%20certificate.pdf?ref=main
+18:51:10.267  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing/Health/caste%20certificate.pdf  363ms  rl=4786
+18:51:10.486  NET   [HTTP              ] → PUT /repos/kumaritkahs-max/testing/contents/testing/Health/caste%20certificate.pdf
+18:51:11.692  NET   [HTTP              ] ← 200 PUT /repos/kumaritkahs-max/testing/contents/testing/Health/caste%20certificate.pdf  1206ms  rl=4785
+18:51:11.699  ERROR [Upload            ] FAIL testing/Health/caste certificate.pdf :: MissingFieldException: Fields [login, id, avatar_url] are required for type with serial name 'com.githubcontrol.data.api.GhUser', but they were missing at path: $.commit.author
+18:51:11.766  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing/Health/report.pdf?ref=main
+18:51:12.132  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing/Health/report.pdf  366ms  rl=4784
+18:51:12.227  NET   [HTTP              ] → PUT /repos/kumaritkahs-max/testing/contents/testing/Health/report.pdf
+18:51:14.617  NET   [HTTP              ] ← 200 PUT /repos/kumaritkahs-max/testing/contents/testing/Health/report.pdf  2389ms  rl=4783
+18:51:14.647  ERROR [Upload            ] FAIL testing/Health/report.pdf :: MissingFieldException: Fields [login, id, avatar_url] are required for type with serial name 'com.githubcontrol.data.api.GhUser', but they were missing at path: $.commit.author
+18:51:14.717  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing/Health/Grandmother_Medical_Explanation.pdf?ref=main
+18:51:15.173  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing/Health/Grandmother_Medical_Explanation.pdf  456ms  rl=4782
+18:51:15.198  NET   [HTTP              ] → PUT /repos/kumaritkahs-max/testing/contents/testing/Health/Grandmother_Medical_Explanation.pdf
+18:51:15.793  NET   [HTTP              ] ← 200 PUT /repos/kumaritkahs-max/testing/contents/testing/Health/Grandmother_Medical_Explanation.pdf  595ms  rl=4781
+18:51:15.812  ERROR [Upload            ] FAIL testing/Health/Grandmother_Medical_Explanation.pdf :: MissingFieldException: Fields [login, id, avatar_url] are required for type with serial name 'com.githubcontrol.data.api.GhUser', but they were missing at path: $.commit.author
+18:51:15.884  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing/Health/ANJINA_DEVI_142027972026_02_02_08_43_19_111_15_114_Lab_1_134145875698220763.pdf.pdf?ref=main
+18:51:16.271  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing/Health/ANJINA_DEVI_142027972026_02_02_08_43_19_111_15_114_Lab_1_134145875698220763.pdf.pdf  387ms  rl=4780
+18:51:16.367  NET   [HTTP              ] → PUT /repos/kumaritkahs-max/testing/contents/testing/Health/ANJINA_DEVI_142027972026_02_02_08_43_19_111_15_114_Lab_1_134145875698220763.pdf.pdf
+18:51:18.651  NET   [HTTP              ] ← 200 PUT /repos/kumaritkahs-max/testing/contents/testing/Health/ANJINA_DEVI_142027972026_02_02_08_43_19_111_15_114_Lab_1_134145875698220763.pdf.pdf  2284ms  rl=4779
+18:51:18.669  ERROR [Upload            ] FAIL testing/Health/ANJINA_DEVI_142027972026_02_02_08_43_19_111_15_114_Lab_1_134145875698220763.pdf.pdf :: MissingFieldException: Fields [login, id, avatar_url] are required for type with serial name 'com.githubcontrol.data.api.GhUser', but they were missing at path: $.commit.author
+18:51:18.709  INFO  [Upload            ] done ok=false done=7 failed=7 skipped=0
+18:51:55.075  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing
+18:51:55.723  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing  648ms  rl=4778
+18:51:55.755  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/testing
+18:51:56.056  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/testing  301ms  rl=4777
+18:51:56.079  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:51:56.596  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  518ms  rl=4701
+18:51:56.614  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contributors?per_page=30
+18:51:57.092  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contributors  478ms  rl=4700
+18:51:57.111  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/languages
+18:51:57.478  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/languages  367ms  rl=4699
+18:52:40.839  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:52:41.442  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  603ms  rl=4698
+18:52:55.393  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches/main
+18:52:55.804  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches/main  410ms  rl=4999
+18:52:55.832  NET   [HTTP              ] → POST /repos/kumaritkahs-max/testing/git/refs
+18:52:56.236  NET   [HTTP              ] ← 201 POST /repos/kumaritkahs-max/testing/git/refs  404ms  rl=4999
+18:52:56.257  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:52:56.684  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  427ms  rl=4998
+18:52:58.735  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing
+18:52:59.093  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing  358ms  rl=4998
+18:52:59.123  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/testing
+18:52:59.429  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/testing  306ms  rl=4997
+18:52:59.455  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:52:59.834  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  379ms  rl=4997
+18:52:59.857  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contributors?per_page=30
+18:53:00.323  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contributors  467ms  rl=4996
+18:53:00.347  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/languages
+18:53:00.766  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/languages  419ms  rl=4995
+18:54:33.005  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents?ref=main
+18:54:33.545  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents  540ms  rl=4996
+18:54:33.578  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:54:33.960  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  382ms  rl=4994
+18:54:35.033  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing
+18:54:35.423  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing  390ms  rl=4995
+18:54:35.451  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/testing
+18:54:35.761  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/testing  310ms  rl=4994
+18:54:35.782  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:54:36.173  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  390ms  rl=4993
+18:54:36.202  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contributors?per_page=30
+18:54:36.633  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contributors  432ms  rl=4992
+18:54:36.659  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/languages
+18:54:37.017  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/languages  357ms  rl=4991
+18:55:30.769  NET   [HTTP              ] → GET /user
+18:55:31.354  NET   [HTTP              ] ← 200 GET /user  585ms  rl=4990
+18:55:31.368  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:55:31.764  NET   [HTTP              ] ← 200 GET /user/repos  396ms  rl=4989
+18:55:31.783  NET   [HTTP              ] → GET /rate_limit
+18:55:32.092  NET   [HTTP              ] ← 200 GET /rate_limit  309ms  rl=4994
+18:55:32.113  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:55:32.494  NET   [HTTP              ] ← 200 GET /notifications  381ms  rl=4988
+18:55:56.315  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=30&page=1
+18:55:56.760  NET   [HTTP              ] ← 200 GET /user/repos  444ms  rl=4987
+18:56:01.649  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=30&page=1
+18:56:02.130  NET   [HTTP              ] ← 200 GET /user/repos  481ms  rl=4986
+18:56:06.533  NET   [HTTP              ] → GET /user
+18:56:06.993  NET   [HTTP              ] ← 200 GET /user  460ms  rl=4985
+18:56:07.021  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:56:07.390  NET   [HTTP              ] ← 200 GET /user/repos  369ms  rl=4984
+18:56:07.428  NET   [HTTP              ] → GET /rate_limit
+18:56:07.718  NET   [HTTP              ] ← 200 GET /rate_limit  290ms  rl=4994
+18:56:07.737  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:56:08.133  NET   [HTTP              ] ← 200 GET /notifications  396ms  rl=4983
+18:56:17.762  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize
+18:56:18.222  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize  460ms  rl=4993
+18:56:18.253  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/Vocalize
+18:56:18.573  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/Vocalize  319ms  rl=4992
+18:56:18.601  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/branches?per_page=100
+18:56:18.993  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/branches  392ms  rl=4982
+18:56:19.027  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/contributors?per_page=30
+18:56:19.430  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/contributors  403ms  rl=4981
+18:56:19.465  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/languages
+18:56:19.839  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/languages  375ms  rl=4980
+18:56:24.197  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/contents?ref=main
+18:56:24.612  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/contents  415ms  rl=4991
+18:56:24.644  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/branches?per_page=100
+18:56:25.075  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/branches  432ms  rl=4979
+18:56:31.709  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/contents/.gradle?ref=main
+18:56:32.043  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/contents/.gradle  333ms  rl=4990
+18:56:32.072  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/branches?per_page=100
+18:56:32.477  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/branches  404ms  rl=4978
+18:56:34.305  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/contents/.gradle/buildOutputCleanup?ref=main
+18:56:34.636  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/contents/.gradle/buildOutputCleanup  331ms  rl=4989
+18:56:34.670  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/branches?per_page=100
+18:56:35.086  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/branches  417ms  rl=4977
+18:56:41.092  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/contents/.gradle?ref=main
+18:56:41.488  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/contents/.gradle  396ms  rl=4988
+18:56:42.805  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/contents?ref=main
+18:56:43.115  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/contents  309ms  rl=4987
+18:57:04.658  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize
+18:57:05.071  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize  413ms  rl=4986
+18:57:05.089  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/Vocalize
+18:57:05.403  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/Vocalize  313ms  rl=4985
+18:57:05.416  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/branches?per_page=100
+18:57:05.575  NET   [HTTP              ] → GET /user
+18:57:05.833  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/branches  416ms  rl=4976
+18:57:05.845  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/contributors?per_page=30
+18:57:05.927  NET   [HTTP              ] ← 200 GET /user  352ms  rl=4975
+18:57:05.952  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:57:06.182  ERROR [HTTP              ] ✕ GET /repos/kumaritkahs-max/Vocalize/contributors :: IOException: Canceled
+18:57:06.373  NET   [HTTP              ] ← 200 GET /user/repos  421ms  rl=4973
+18:57:06.405  NET   [HTTP              ] → GET /rate_limit
+18:57:06.709  NET   [HTTP              ] ← 200 GET /rate_limit  304ms  rl=4985
+18:57:06.737  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:57:07.120  NET   [HTTP              ] ← 200 GET /notifications  383ms  rl=4972
+18:57:08.807  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing
+18:57:09.196  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing  389ms  rl=4984
+18:57:09.232  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/testing
+18:57:09.580  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/testing  348ms  rl=4983
+18:57:09.617  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:57:09.987  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  370ms  rl=4971
+18:57:10.018  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contributors?per_page=30
+18:57:10.540  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contributors  522ms  rl=4970
+18:57:10.565  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/languages
+18:57:10.960  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/languages  395ms  rl=4969
+18:57:14.867  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents?ref=main
+18:57:15.210  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents  343ms  rl=4982
+18:57:15.237  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:57:15.632  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  395ms  rl=4968
+18:57:16.671  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing?ref=main
+18:57:17.101  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing  430ms  rl=4981
+18:57:17.151  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:57:17.548  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  397ms  rl=4967
+18:57:20.489  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing/Health?ref=main
+18:57:20.813  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing/Health  323ms  rl=4980
+18:57:20.851  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:57:21.237  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  386ms  rl=4966
+18:57:26.586  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing?ref=main
+18:57:26.919  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing  332ms  rl=4979
+18:57:41.558  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing/Health?ref=main
+18:57:41.908  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing/Health  349ms  rl=4978
+18:57:41.943  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:57:42.562  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  619ms  rl=4965
+18:57:43.246  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing?ref=main
+18:57:43.577  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing  331ms  rl=4977
+18:57:48.221  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing?ref=main
+18:57:48.530  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing  309ms  rl=4976
+18:57:52.690  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing?ref=main
+18:57:53.101  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing  411ms  rl=4975
+18:57:54.575  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents?ref=main
+18:57:54.911  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents  336ms  rl=4974
+18:57:55.734  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing
+18:57:56.127  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing  393ms  rl=4973
+18:57:56.165  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/testing
+18:57:56.619  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/testing  454ms  rl=4972
+18:57:56.648  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:57:57.036  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  388ms  rl=4964
+18:57:57.057  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contributors?per_page=30
+18:57:57.577  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contributors  520ms  rl=4963
+18:57:57.601  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/languages
+18:57:57.957  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/languages  357ms  rl=4962
+18:58:04.715  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches/main/protection
+18:58:05.268  NET   [HTTP              ] ← 404 GET /repos/kumaritkahs-max/testing/branches/main/protection  553ms  rl=4961
+18:58:58.942  NET   [HTTP              ] → PUT /repos/kumaritkahs-max/testing/branches/main/protection
+18:58:59.654  NET   [HTTP              ] ← 422 PUT /repos/kumaritkahs-max/testing/branches/main/protection  712ms  rl=4971
+18:58:59.666  ERROR [BranchProtection  ] save failed :: HttpException: HTTP 422 
+18:59:02.091  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing
+18:59:02.540  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing  449ms  rl=4970
+18:59:02.581  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/testing
+18:59:02.892  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/testing  311ms  rl=4969
+18:59:02.925  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:59:03.313  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  388ms  rl=4960
+18:59:03.344  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contributors?per_page=30
+18:59:03.765  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contributors  421ms  rl=4959
+18:59:03.782  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/languages
+18:59:04.168  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/languages  386ms  rl=4958
+18:59:05.537  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents?ref=main
+18:59:06.289  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents  752ms  rl=4968
+18:59:06.315  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:59:06.843  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  528ms  rl=4957
+18:59:07.859  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing?ref=main
+18:59:08.303  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing  444ms  rl=4967
+18:59:08.336  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:59:08.712  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  376ms  rl=4956
+18:59:14.102  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing/Health?ref=main
+18:59:14.399  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing/Health  298ms  rl=4966
+18:59:14.442  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:59:14.835  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  393ms  rl=4955
+18:59:17.290  NET   [HTTP              ] → DELETE /repos/kumaritkahs-max/testing/contents/testing/Health/ANJINA_DEVI_142027972026_02_02_08_43_19_111_15_114_Lab_1_134145875698220763.pdf.pdf
+18:59:18.002  NET   [HTTP              ] ← 200 DELETE /repos/kumaritkahs-max/testing/contents/testing/Health/ANJINA_DEVI_142027972026_02_02_08_43_19_111_15_114_Lab_1_134145875698220763.pdf.pdf  712ms  rl=4965
+18:59:18.655  NET   [HTTP              ] → DELETE /repos/kumaritkahs-max/testing/contents/testing/Health/ANJINA_DEVI_142027972026_02_02_08_43_19_111_15_114_Lab_1_134145875698220763.pdf.pdf
+18:59:19.027  NET   [HTTP              ] ← 404 DELETE /repos/kumaritkahs-max/testing/contents/testing/Health/ANJINA_DEVI_142027972026_02_02_08_43_19_111_15_114_Lab_1_134145875698220763.pdf.pdf  372ms  rl=4964
+18:59:21.507  NET   [HTTP              ] → DELETE /repos/kumaritkahs-max/testing/contents/testing/Health/ANJINA_DEVI_142027972026_02_02_08_43_19_111_15_114_Lab_1_134145875698220763.pdf.pdf
+18:59:21.891  NET   [HTTP              ] ← 404 DELETE /repos/kumaritkahs-max/testing/contents/testing/Health/ANJINA_DEVI_142027972026_02_02_08_43_19_111_15_114_Lab_1_134145875698220763.pdf.pdf  384ms  rl=4963
+18:59:23.543  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing?ref=main
+18:59:23.841  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing  298ms  rl=4962
+18:59:26.846  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/testing?ref=main
+18:59:27.192  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents/testing  347ms  rl=4961
+18:59:50.343  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents?ref=main
+18:59:50.738  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contents  396ms  rl=4960
+18:59:51.534  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing
+18:59:51.976  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing  442ms  rl=4959
+18:59:52.004  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/testing
+18:59:52.322  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/testing  318ms  rl=4958
+18:59:52.349  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:59:52.786  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  437ms  rl=4954
+18:59:52.801  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contributors?per_page=30
+18:59:53.286  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contributors  486ms  rl=4953
+18:59:53.314  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/languages
+18:59:53.639  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/languages  325ms  rl=4952
+19:00:00.193  NET   [HTTP              ] → GET /user
+19:00:00.723  NET   [HTTP              ] ← 200 GET /user  530ms  rl=4951
+19:00:00.742  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+19:00:01.201  NET   [HTTP              ] ← 200 GET /user/repos  459ms  rl=4950
+19:00:01.227  NET   [HTTP              ] → GET /rate_limit
+19:00:01.568  NET   [HTTP              ] ← 200 GET /rate_limit  342ms  rl=4958
+19:00:01.581  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+19:00:01.975  NET   [HTTP              ] ← 200 GET /notifications  394ms  rl=4949
+19:00:06.401  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize
+19:00:06.828  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize  427ms  rl=4957
+19:00:06.851  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/Vocalize
+19:00:07.156  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/Vocalize  305ms  rl=4956
+19:00:07.182  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/branches?per_page=100
+19:00:07.588  NET   [HTTP              ] → GET /user
+19:00:07.636  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/branches  454ms  rl=4948
+19:00:07.650  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/contributors?per_page=30
+19:00:07.971  NET   [HTTP              ] ← 200 GET /user  383ms  rl=4947
+19:00:07.987  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+19:00:08.104  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Vocalize/contributors  454ms  rl=4946
+19:00:08.124  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Vocalize/languages
+19:00:08.215  ERROR [HTTP              ] ✕ GET /repos/kumaritkahs-max/Vocalize/languages :: IOException: Canceled
+19:00:08.400  NET   [HTTP              ] ← 200 GET /user/repos  413ms  rl=4945
+19:00:08.442  NET   [HTTP              ] → GET /rate_limit
+19:00:08.745  NET   [HTTP              ] ← 200 GET /rate_limit  303ms  rl=4956
+19:00:08.762  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+19:00:09.180  NET   [HTTP              ] ← 200 GET /notifications  418ms  rl=4943
+19:00:24.975  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Smart-Toolbox
+19:00:25.397  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Smart-Toolbox  422ms  rl=4955
+19:00:25.428  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/Smart-Toolbox
+19:00:25.737  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/Smart-Toolbox  310ms  rl=4954
+19:00:25.779  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Smart-Toolbox/branches?per_page=100
+19:00:26.170  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Smart-Toolbox/branches  391ms  rl=4942
+19:00:26.195  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Smart-Toolbox/contributors?per_page=30
+19:00:26.685  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Smart-Toolbox/contributors  490ms  rl=4941
+19:00:26.706  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Smart-Toolbox/languages
+19:00:27.185  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Smart-Toolbox/languages  479ms  rl=4940
+19:00:38.085  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Smart-Toolbox/branches/main/protection
+19:00:38.537  NET   [HTTP              ] ← 404 GET /repos/kumaritkahs-max/Smart-Toolbox/branches/main/protection  453ms  rl=4939
+19:01:37.916  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Smart-Toolbox
+19:01:38.540  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Smart-Toolbox  624ms  rl=4953
+19:01:38.565  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/Smart-Toolbox
+19:01:38.919  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/Smart-Toolbox  354ms  rl=4952
+19:01:38.933  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Smart-Toolbox/branches?per_page=100
+19:01:39.323  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Smart-Toolbox/branches  390ms  rl=4938
+19:01:39.335  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Smart-Toolbox/contributors?per_page=30
+19:01:39.819  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Smart-Toolbox/contributors  484ms  rl=4937
+19:01:39.849  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Smart-Toolbox/languages
+19:01:40.294  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Smart-Toolbox/languages  446ms  rl=4936
+19:01:45.524  NET   [HTTP              ] → GET /user
+19:01:45.902  NET   [HTTP              ] ← 200 GET /user  377ms  rl=4935
+19:01:45.920  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+19:01:46.377  NET   [HTTP              ] ← 200 GET /user/repos  457ms  rl=4934
+19:01:46.409  NET   [HTTP              ] → GET /rate_limit
+19:01:46.718  NET   [HTTP              ] ← 200 GET /rate_limit  309ms  rl=4952
+19:01:46.740  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+19:01:47.127  NET   [HTTP              ] ← 200 GET /notifications  387ms  rl=4933
+19:01:58.203  INFO  [Command           ] $ help
+19:01:58.205  INFO  [Command           ] Commands:
+19:02:02.591  NET   [HTTP              ] → GET /user
+19:02:02.959  NET   [HTTP              ] ← 200 GET /user  368ms  rl=4932
+19:02:02.991  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+19:02:03.436  NET   [HTTP              ] ← 200 GET /user/repos  445ms  rl=4931
+19:02:03.476  NET   [HTTP              ] → GET /rate_limit
+19:02:03.899  NET   [HTTP              ] ← 200 GET /rate_limit  423ms  rl=4952
+19:02:03.925  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+19:02:04.708  NET   [HTTP              ] ← 200 GET /notifications  783ms  rl=4930
+19:03:01.414  NET   [HTTP              ] → GET /user
+19:03:02.112  NET   [HTTP              ] ← 200 GET /user  698ms  rl=4929
+19:03:17.157  NET   [HTTP              ] → PATCH /user
+19:03:17.580  NET   [HTTP              ] ← 200 PATCH /user  423ms  rl=4951
+19:03:17.602  INFO  [Profile           ] saved profile updates
+19:03:31.448  NET   [HTTP              ] → PATCH /user
+19:03:31.834  NET   [HTTP              ] ← 422 PATCH /user  386ms  rl=4950
+19:03:31.874  ERROR [Profile           ] save failed :: HttpException: HTTP 422 
+19:03:48.345  NET   [HTTP              ] → GET /user/keys
+19:03:48.657  NET   [HTTP              ] ← 200 GET /user/keys  312ms  rl=4949
+19:03:51.462  NET   [HTTP              ] → GET /user/keys
+19:03:51.777  NET   [HTTP              ] ← 200 GET /user/keys  314ms  rl=4948

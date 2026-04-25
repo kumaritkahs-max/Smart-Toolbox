@@ -1,0 +1,159 @@
+# GitHub Control crash report
+Timestamp:   Sat Apr 25 18:30:04 GMT+05:30 2026  (epoch=1777122004723)
+Type:        uncaught
+Thread:      main (id=2, prio=5)
+Exception:   androidx.compose.runtime.ComposeRuntimeError: Compose Runtime internal error. Unexpected or incorrect use of the Compose internal runtime API (Start/end imbalance). Please report to Google or use https://goo.gle/compose-feedback
+
+# Device
+Brand:       Infinix
+Model:       Infinix X6857B
+Manufacturer:INFINIX
+Product:     X6857B-IN
+Android:     15 (sdk 35)
+ABI:         arm64-v8a
+App version: 1.0.0
+
+# Stack trace
+androidx.compose.runtime.ComposeRuntimeError: Compose Runtime internal error. Unexpected or incorrect use of the Compose internal runtime API (Start/end imbalance). Please report to Google or use https://goo.gle/compose-feedback
+	at androidx.compose.runtime.ComposerKt.composeImmediateRuntimeError(Composer.kt:4574)
+	at androidx.compose.runtime.ComposerImpl.finalizeCompose(Composer.kt:4899)
+	at androidx.compose.runtime.ComposerImpl.endRoot(Composer.kt:1671)
+	at androidx.compose.runtime.ComposerImpl.doCompose(Composer.kt:3610)
+	at androidx.compose.runtime.ComposerImpl.recompose$runtime_release(Composer.kt:3552)
+	at androidx.compose.runtime.CompositionImpl.recompose(Composition.kt:948)
+	at androidx.compose.runtime.Recomposer.performRecompose(Recomposer.kt:1206)
+	at androidx.compose.runtime.Recomposer.access$performRecompose(Recomposer.kt:132)
+	at androidx.compose.runtime.Recomposer$runRecomposeAndApplyChanges$2$1.invoke(Recomposer.kt:616)
+	at androidx.compose.runtime.Recomposer$runRecomposeAndApplyChanges$2$1.invoke(Recomposer.kt:585)
+	at androidx.compose.ui.platform.AndroidUiFrameClock$withFrameNanos$2$callback$1.doFrame(AndroidUiFrameClock.android.kt:41)
+	at androidx.compose.ui.platform.AndroidUiDispatcher.performFrameDispatch(AndroidUiDispatcher.android.kt:109)
+	at androidx.compose.ui.platform.AndroidUiDispatcher.access$performFrameDispatch(AndroidUiDispatcher.android.kt:41)
+	at androidx.compose.ui.platform.AndroidUiDispatcher$dispatchCallback$1.doFrame(AndroidUiDispatcher.android.kt:69)
+	at android.view.Choreographer$CallbackRecord.run(Choreographer.java:1608)
+	at android.view.Choreographer$CallbackRecord.run(Choreographer.java:1619)
+	at android.view.Choreographer.doCallbacks(Choreographer.java:1159)
+	at android.view.Choreographer.doFrame(Choreographer.java:1045)
+	at android.view.Choreographer$FrameDisplayEventReceiver.run(Choreographer.java:1578)
+	at android.os.Handler.handleCallback(Handler.java:959)
+	at android.os.Handler.dispatchMessage(Handler.java:100)
+	at android.os.Looper.loopOnce(Looper.java:311)
+	at android.os.Looper.loop(Looper.java:408)
+	at android.app.ActivityThread.main(ActivityThread.java:9119)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:627)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:970)
+	Suppressed: kotlinx.coroutines.internal.DiagnosticCoroutineContextException: [androidx.compose.runtime.PausableMonotonicFrameClock@72f01fb, androidx.compose.ui.platform.MotionDurationScaleImpl@4c08218, StandaloneCoroutine{Cancelling}@42ae471, AndroidUiDispatcher@843e256]
+
+# Recent in-app log (last 200 entries)
+18:27:14.569  INFO  [CrashHandler      ] installed → /data/user/0/com.githubcontrol/files/crashes
+18:27:14.572  INFO  [WidgetCtl         ] started — observing upload state
+18:27:14.573  INFO  [App               ] GitHub Control starting v1.0.0
+18:27:20.810  NET   [HTTP              ] → GET /user
+18:27:21.412  NET   [HTTP              ] ← 200 GET /user  602ms  rl=4947
+18:27:21.452  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:27:21.848  NET   [HTTP              ] ← 200 GET /user/repos  396ms  rl=4946
+18:27:21.901  NET   [HTTP              ] → GET /rate_limit
+18:27:22.314  NET   [HTTP              ] ← 200 GET /rate_limit  413ms  rl=4934
+18:27:22.343  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:27:22.780  NET   [HTTP              ] ← 200 GET /notifications  438ms  rl=4945
+18:28:00.119  NET   [HTTP              ] → GET /user
+18:28:00.713  NET   [HTTP              ] ← 200 GET /user  595ms  rl=4944
+18:28:00.783  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:28:01.204  NET   [HTTP              ] ← 200 GET /user/repos  421ms  rl=4943
+18:28:01.350  NET   [HTTP              ] → GET /rate_limit
+18:28:01.645  NET   [HTTP              ] ← 200 GET /rate_limit  295ms  rl=4934
+18:28:01.745  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:28:02.169  NET   [HTTP              ] ← 200 GET /notifications  423ms  rl=4942
+18:28:06.853  NET   [HTTP              ] → GET /user
+18:28:07.293  NET   [HTTP              ] ← 200 GET /user  440ms  rl=4941
+18:28:07.366  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:28:07.767  NET   [HTTP              ] ← 200 GET /user/repos  401ms  rl=4940
+18:28:07.880  NET   [HTTP              ] → GET /rate_limit
+18:28:08.239  NET   [HTTP              ] ← 200 GET /rate_limit  359ms  rl=4934
+18:28:08.280  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:28:08.664  NET   [HTTP              ] ← 200 GET /notifications  384ms  rl=4939
+18:28:16.466  NET   [HTTP              ] → GET /user
+18:28:16.877  NET   [HTTP              ] ← 200 GET /user  411ms  rl=4938
+18:28:16.912  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:28:17.280  NET   [HTTP              ] ← 200 GET /user/repos  369ms  rl=4937
+18:28:17.326  NET   [HTTP              ] → GET /rate_limit
+18:28:17.680  NET   [HTTP              ] ← 200 GET /rate_limit  354ms  rl=4934
+18:28:17.704  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:28:18.095  NET   [HTTP              ] ← 200 GET /notifications  391ms  rl=4936
+18:28:20.495  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=30&page=1
+18:28:21.040  NET   [HTTP              ] ← 200 GET /user/repos  544ms  rl=4935
+18:28:22.572  NET   [HTTP              ] → GET /user
+18:28:22.963  NET   [HTTP              ] ← 200 GET /user  391ms  rl=4934
+18:28:22.994  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:28:23.399  NET   [HTTP              ] ← 200 GET /user/repos  405ms  rl=4933
+18:28:23.430  NET   [HTTP              ] → GET /rate_limit
+18:28:23.769  NET   [HTTP              ] ← 200 GET /rate_limit  339ms  rl=4934
+18:28:23.787  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:28:24.236  NET   [HTTP              ] ← 200 GET /notifications  449ms  rl=4932
+18:28:29.935  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app
+18:28:30.299  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app  364ms  rl=4933
+18:28:30.337  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/plain-app
+18:28:30.628  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/plain-app  291ms  rl=4932
+18:28:30.665  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:28:31.279  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  614ms  rl=4931
+18:28:31.312  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contributors?per_page=30
+18:28:31.934  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contributors  622ms  rl=4930
+18:28:31.987  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/languages
+18:28:32.410  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/languages  423ms  rl=4929
+18:28:40.460  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/readme?ref=main
+18:28:41.059  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/readme  599ms  rl=4931
+18:28:55.261  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app
+18:28:55.754  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app  494ms  rl=4930
+18:28:55.816  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/plain-app
+18:28:56.124  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/plain-app  308ms  rl=4929
+18:28:56.165  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:28:56.714  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  549ms  rl=4928
+18:28:56.736  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contributors?per_page=30
+18:28:57.109  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contributors  372ms  rl=4927
+18:28:57.128  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/languages
+18:28:57.517  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/languages  389ms  rl=4926
+18:28:57.706  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/readme?ref=main
+18:28:58.202  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/readme  496ms  rl=4928
+18:29:03.372  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app
+18:29:03.726  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app  353ms  rl=4927
+18:29:03.751  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/plain-app
+18:29:04.096  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/plain-app  346ms  rl=4926
+18:29:04.112  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:29:04.524  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  411ms  rl=4925
+18:29:04.545  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contributors?per_page=30
+18:29:05.048  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contributors  504ms  rl=4924
+18:29:05.072  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/languages
+18:29:05.426  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/languages  354ms  rl=4923
+18:29:15.475  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/readme?ref=main
+18:29:16.077  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/readme  602ms  rl=4925
+18:29:18.379  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app
+18:29:18.818  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app  439ms  rl=4924
+18:29:18.860  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/plain-app
+18:29:19.171  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/plain-app  311ms  rl=4923
+18:29:19.193  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:29:19.754  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  561ms  rl=4922
+18:29:19.854  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contents?ref=main
+18:29:19.859  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contributors?per_page=30
+18:29:20.247  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contents  393ms  rl=4922
+18:29:20.289  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contributors  430ms  rl=4921
+18:29:20.291  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:29:20.322  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/languages
+18:29:20.729  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  438ms  rl=4920
+18:29:20.731  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/languages  409ms  rl=4919
+18:29:47.847  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contents/docs?ref=main
+18:29:48.237  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contents/docs  390ms  rl=4921
+18:29:48.366  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:29:48.768  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  402ms  rl=4918
+18:29:49.229  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contents?ref=main
+18:29:49.691  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contents  462ms  rl=4920
+18:29:59.601  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contents/assets?ref=main
+18:30:00.088  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contents/assets  487ms  rl=4919
+18:30:00.119  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:30:00.502  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  383ms  rl=4917
+18:30:00.865  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contents?ref=main
+18:30:01.197  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contents  332ms  rl=4918
+18:30:02.516  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contents/attached_assets?ref=main
+18:30:02.982  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contents/attached_assets  467ms  rl=4917
+18:30:03.019  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:30:03.442  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  423ms  rl=4916
+18:30:04.701  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contents/attached_assets/my-release-key_1776975350589.jks?ref=main

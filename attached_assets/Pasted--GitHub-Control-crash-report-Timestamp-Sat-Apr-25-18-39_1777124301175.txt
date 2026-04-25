@@ -1,0 +1,243 @@
+# GitHub Control crash report
+Timestamp:   Sat Apr 25 18:39:08 GMT+05:30 2026  (epoch=1777122548998)
+Type:        uncaught
+Thread:      main (id=2, prio=5)
+Exception:   java.lang.RuntimeException: Failure delivering result ResultInfo{who=null, request=149111795, result=-1, data=Intent { dat=content://com.android.providers.media.documents/... flg=0x43 }} to activity {com.githubcontrol/com.githubcontrol.MainActivity}: java.lang.IllegalArgumentException: Invalid URI: content://com.android.providers.media.documents/document/image%3A61006
+
+# Device
+Brand:       Infinix
+Model:       Infinix X6857B
+Manufacturer:INFINIX
+Product:     X6857B-IN
+Android:     15 (sdk 35)
+ABI:         arm64-v8a
+App version: 1.0.0
+
+# Stack trace
+java.lang.RuntimeException: Failure delivering result ResultInfo{who=null, request=149111795, result=-1, data=Intent { dat=content://com.android.providers.media.documents/... flg=0x43 }} to activity {com.githubcontrol/com.githubcontrol.MainActivity}: java.lang.IllegalArgumentException: Invalid URI: content://com.android.providers.media.documents/document/image%3A61006
+	at android.app.ActivityThread.deliverResults(ActivityThread.java:6206)
+	at android.app.ActivityThread.handleSendResult(ActivityThread.java:6245)
+	at android.app.servertransaction.ActivityResultItem.execute(ActivityResultItem.java:69)
+	at android.app.servertransaction.ActivityTransactionItem.execute(ActivityTransactionItem.java:60)
+	at android.app.servertransaction.TransactionExecutor.executeNonLifecycleItem(TransactionExecutor.java:174)
+	at android.app.servertransaction.TransactionExecutor.executeTransactionItems(TransactionExecutor.java:109)
+	at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:81)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2786)
+	at android.os.Handler.dispatchMessage(Handler.java:107)
+	at android.os.Looper.loopOnce(Looper.java:311)
+	at android.os.Looper.loop(Looper.java:408)
+	at android.app.ActivityThread.main(ActivityThread.java:9119)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:627)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:970)
+Caused by: java.lang.IllegalArgumentException: Invalid URI: content://com.android.providers.media.documents/document/image%3A61006
+	at android.provider.DocumentsContract.getTreeDocumentId(DocumentsContract.java:1289)
+	at androidx.documentfile.provider.DocumentFile.fromTreeUri(DocumentFile.java:136)
+	at com.githubcontrol.upload.UploadManager.buildJob(UploadManager.kt:90)
+	at com.githubcontrol.viewmodel.UploadViewModel.setUris(UploadViewModel.kt:70)
+	at com.githubcontrol.ui.screens.upload.UploadScreenKt.UploadScreen$lambda$2(UploadScreen.kt:35)
+	at com.githubcontrol.ui.screens.upload.UploadScreenKt.$r8$lambda$-KekAfoGiaINVwvnaW-7CpX-TWI(Unknown Source:0)
+	at com.githubcontrol.ui.screens.upload.UploadScreenKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
+	at androidx.activity.compose.ActivityResultRegistryKt$rememberLauncherForActivityResult$1$1.invoke$lambda$0(ActivityResultRegistry.kt:106)
+	at androidx.activity.compose.ActivityResultRegistryKt$rememberLauncherForActivityResult$1$1.$r8$lambda$VLs2Oqd6MzDD-LGilzyhNhDSH_4(Unknown Source:0)
+	at androidx.activity.compose.ActivityResultRegistryKt$rememberLauncherForActivityResult$1$1$$ExternalSyntheticLambda0.onActivityResult(D8$$SyntheticClass:0)
+	at androidx.activity.result.ActivityResultRegistry.doDispatch(ActivityResultRegistry.kt:371)
+	at androidx.activity.result.ActivityResultRegistry.dispatchResult(ActivityResultRegistry.kt:331)
+	at androidx.activity.ComponentActivity.onActivityResult(ComponentActivity.kt:786)
+	at android.app.Activity.onActivityResult(Activity.java:7514)
+	at android.app.Activity.internalDispatchActivityResult(Activity.java:9426)
+	at android.app.Activity.dispatchActivityResult(Activity.java:9403)
+	at android.app.ActivityThread.deliverResults(ActivityThread.java:6195)
+	... 14 more
+
+# Caused by (1)
+java.lang.IllegalArgumentException: Invalid URI: content://com.android.providers.media.documents/document/image%3A61006
+	at android.provider.DocumentsContract.getTreeDocumentId(DocumentsContract.java:1289)
+	at androidx.documentfile.provider.DocumentFile.fromTreeUri(DocumentFile.java:136)
+	at com.githubcontrol.upload.UploadManager.buildJob(UploadManager.kt:90)
+	at com.githubcontrol.viewmodel.UploadViewModel.setUris(UploadViewModel.kt:70)
+	at com.githubcontrol.ui.screens.upload.UploadScreenKt.UploadScreen$lambda$2(UploadScreen.kt:35)
+	at com.githubcontrol.ui.screens.upload.UploadScreenKt.$r8$lambda$-KekAfoGiaINVwvnaW-7CpX-TWI(Unknown Source:0)
+	at com.githubcontrol.ui.screens.upload.UploadScreenKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
+	at androidx.activity.compose.ActivityResultRegistryKt$rememberLauncherForActivityResult$1$1.invoke$lambda$0(ActivityResultRegistry.kt:106)
+	at androidx.activity.compose.ActivityResultRegistryKt$rememberLauncherForActivityResult$1$1.$r8$lambda$VLs2Oqd6MzDD-LGilzyhNhDSH_4(Unknown Source:0)
+	at androidx.activity.compose.ActivityResultRegistryKt$rememberLauncherForActivityResult$1$1$$ExternalSyntheticLambda0.onActivityResult(D8$$SyntheticClass:0)
+	at androidx.activity.result.ActivityResultRegistry.doDispatch(ActivityResultRegistry.kt:371)
+	at androidx.activity.result.ActivityResultRegistry.dispatchResult(ActivityResultRegistry.kt:331)
+	at androidx.activity.ComponentActivity.onActivityResult(ComponentActivity.kt:786)
+	at android.app.Activity.onActivityResult(Activity.java:7514)
+	at android.app.Activity.internalDispatchActivityResult(Activity.java:9426)
+	at android.app.Activity.dispatchActivityResult(Activity.java:9403)
+	at android.app.ActivityThread.deliverResults(ActivityThread.java:6195)
+	at android.app.ActivityThread.handleSendResult(ActivityThread.java:6245)
+	at android.app.servertransaction.ActivityResultItem.execute(ActivityResultItem.java:69)
+	at android.app.servertransaction.ActivityTransactionItem.execute(ActivityTransactionItem.java:60)
+	at android.app.servertransaction.TransactionExecutor.executeNonLifecycleItem(TransactionExecutor.java:174)
+	at android.app.servertransaction.TransactionExecutor.executeTransactionItems(TransactionExecutor.java:109)
+	at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:81)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2786)
+	at android.os.Handler.dispatchMessage(Handler.java:107)
+	at android.os.Looper.loopOnce(Looper.java:311)
+	at android.os.Looper.loop(Looper.java:408)
+	at android.app.ActivityThread.main(ActivityThread.java:9119)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:627)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:970)
+
+# Recent in-app log (last 200 entries)
+18:34:44.787  INFO  [CrashHandler      ] installed → /data/user/0/com.githubcontrol/files/crashes
+18:34:44.790  INFO  [WidgetCtl         ] started — observing upload state
+18:34:44.790  INFO  [App               ] GitHub Control starting v1.0.0
+18:34:47.563  NET   [HTTP              ] → GET /user
+18:34:48.398  NET   [HTTP              ] ← 200 GET /user  835ms  rl=4837
+18:34:48.448  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:34:48.884  NET   [HTTP              ] ← 200 GET /user/repos  437ms  rl=4836
+18:34:48.956  NET   [HTTP              ] → GET /rate_limit
+18:34:49.294  NET   [HTTP              ] ← 200 GET /rate_limit  337ms  rl=4881
+18:34:49.327  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:34:49.737  NET   [HTTP              ] ← 200 GET /notifications  410ms  rl=4835
+18:34:51.409  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app
+18:34:51.854  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app  445ms  rl=4880
+18:34:51.905  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/plain-app
+18:34:52.233  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/plain-app  328ms  rl=4879
+18:34:52.265  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:34:52.713  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  449ms  rl=4834
+18:34:52.752  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contributors?per_page=30
+18:34:53.187  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contributors  434ms  rl=4833
+18:34:53.234  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/languages
+18:34:53.673  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/languages  440ms  rl=4832
+18:34:55.866  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/actions/workflows
+18:34:56.237  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/actions/workflows  371ms  rl=4878
+18:34:56.273  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/actions/runs?per_page=30&page=1
+18:34:57.280  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/actions/runs  1008ms  rl=4831
+18:35:16.620  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/actions/workflows
+18:35:17.038  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/actions/workflows  418ms  rl=4877
+18:35:17.074  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/actions/runs?per_page=30&page=1
+18:35:18.088  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/actions/runs  1013ms  rl=4830
+18:35:43.455  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/actions/workflows
+18:35:44.140  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/actions/workflows  684ms  rl=4876
+18:35:44.164  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/actions/runs?per_page=30&page=1
+18:35:45.208  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/actions/runs  1044ms  rl=4829
+18:35:50.856  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app
+18:35:51.437  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app  581ms  rl=4875
+18:35:51.473  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/plain-app
+18:35:51.796  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/plain-app  323ms  rl=4874
+18:35:51.819  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:35:52.236  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  417ms  rl=4828
+18:35:52.272  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contributors?per_page=30
+18:35:52.717  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contributors  446ms  rl=4827
+18:35:52.753  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/languages
+18:35:53.102  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/languages  349ms  rl=4826
+18:35:53.731  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contributors?per_page=30
+18:35:54.328  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contributors  596ms  rl=4825
+18:35:54.423  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/languages
+18:35:54.797  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/languages  373ms  rl=4824
+18:35:54.829  NET   [HTTP              ] → GET /rate_limit
+18:35:55.137  NET   [HTTP              ] ← 200 GET /rate_limit  308ms  rl=4874
+18:35:58.950  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app
+18:35:59.359  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app  409ms  rl=4873
+18:35:59.460  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/plain-app
+18:35:59.785  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/plain-app  324ms  rl=4872
+18:35:59.828  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:36:00.224  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  396ms  rl=4823
+18:36:00.252  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contributors?per_page=30
+18:36:00.727  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contributors  475ms  rl=4822
+18:36:00.768  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/languages
+18:36:01.204  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/languages  436ms  rl=4821
+18:36:01.708  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:36:02.161  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  453ms  rl=4820
+18:36:02.222  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contents/.gitignore?ref=main
+18:36:02.594  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contents/.gitignore  371ms  rl=4871
+18:36:03.543  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app
+18:36:03.924  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app  381ms  rl=4870
+18:36:04.043  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/plain-app
+18:36:04.536  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/plain-app  493ms  rl=4869
+18:36:04.570  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:36:05.033  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  463ms  rl=4819
+18:36:05.073  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contributors?per_page=30
+18:36:05.515  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contributors  442ms  rl=4818
+18:36:05.549  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/languages
+18:36:05.924  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/languages  375ms  rl=4817
+18:36:14.967  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:36:15.379  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  412ms  rl=4816
+18:36:20.317  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app
+18:36:20.861  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app  544ms  rl=4868
+18:36:20.903  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/plain-app
+18:36:21.348  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/plain-app  445ms  rl=4867
+18:36:21.371  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/branches?per_page=100
+18:36:21.835  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/branches  464ms  rl=4815
+18:36:21.872  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/contributors?per_page=30
+18:36:22.315  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/contributors  443ms  rl=4814
+18:36:22.348  NET   [HTTP              ] → GET /repos/kumaritkahs-max/plain-app/languages
+18:36:22.794  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/plain-app/languages  446ms  rl=4813
+18:36:28.705  NET   [HTTP              ] → GET /user
+18:36:29.185  NET   [HTTP              ] ← 200 GET /user  480ms  rl=4812
+18:36:29.219  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:36:29.689  NET   [HTTP              ] ← 200 GET /user/repos  470ms  rl=4811
+18:36:29.769  NET   [HTTP              ] → GET /user
+18:36:29.776  NET   [HTTP              ] → GET /rate_limit
+18:36:30.158  NET   [HTTP              ] ← 200 GET /user  389ms  rl=4810
+18:36:30.175  NET   [HTTP              ] ← 200 GET /rate_limit  399ms  rl=4867
+18:36:30.194  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:36:30.217  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:36:30.652  NET   [HTTP              ] ← 200 GET /user/repos  458ms  rl=4809
+18:36:30.694  NET   [HTTP              ] ← 200 GET /notifications  477ms  rl=4808
+18:36:30.698  NET   [HTTP              ] → GET /rate_limit
+18:36:31.117  NET   [HTTP              ] ← 200 GET /rate_limit  420ms  rl=4867
+18:36:31.153  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:36:31.516  NET   [HTTP              ] ← 200 GET /notifications  363ms  rl=4807
+18:36:33.267  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello
+18:36:33.680  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Hello  412ms  rl=4866
+18:36:33.715  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/Hello
+18:36:34.143  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/Hello  429ms  rl=4865
+18:36:34.176  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/branches?per_page=100
+18:36:34.636  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Hello/branches  460ms  rl=4806
+18:36:34.675  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/contributors?per_page=30
+18:36:35.116  NET   [HTTP              ] ← 204 GET /repos/kumaritkahs-max/Hello/contributors  441ms  rl=4805
+18:36:35.147  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/languages
+18:36:35.596  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Hello/languages  449ms  rl=4804
+18:36:44.092  NET   [HTTP              ] → POST /repos/kumaritkahs-max/Hello/forks
+18:36:44.554  NET   [HTTP              ] ← 403 POST /repos/kumaritkahs-max/Hello/forks  461ms  rl=4864
+18:36:52.986  NET   [HTTP              ] → PATCH /repos/kumaritkahs-max/Hello
+18:36:53.679  NET   [HTTP              ] ← 200 PATCH /repos/kumaritkahs-max/Hello  693ms  rl=4863
+18:37:06.218  NET   [HTTP              ] → PUT /repos/kumaritkahs-max/testing/subscription
+18:37:06.623  NET   [HTTP              ] ← 200 PUT /repos/kumaritkahs-max/testing/subscription  405ms  rl=4862
+18:37:07.614  NET   [HTTP              ] → DELETE /repos/kumaritkahs-max/testing/subscription
+18:37:08.005  NET   [HTTP              ] ← 204 DELETE /repos/kumaritkahs-max/testing/subscription  390ms  rl=4861
+18:37:08.813  NET   [HTTP              ] → PUT /repos/kumaritkahs-max/testing/subscription
+18:37:09.201  NET   [HTTP              ] ← 200 PUT /repos/kumaritkahs-max/testing/subscription  388ms  rl=4860
+18:37:26.993  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/branches/main/protection
+18:37:27.927  NET   [HTTP              ] ← 404 GET /repos/kumaritkahs-max/Hello/branches/main/protection  933ms  rl=4802
+18:37:58.584  NET   [HTTP              ] → PUT /repos/kumaritkahs-max/Hello/branches/main/protection
+18:37:59.566  NET   [HTTP              ] ← 404 PUT /repos/kumaritkahs-max/Hello/branches/main/protection  982ms  rl=4858
+18:37:59.592  ERROR [BranchProtection  ] save failed :: HttpException: HTTP 404 
+18:38:07.001  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello
+18:38:07.931  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Hello  930ms  rl=4856
+18:38:07.970  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/Hello
+18:38:08.739  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/Hello  769ms  rl=4854
+18:38:08.752  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/branches?per_page=100
+18:38:09.507  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Hello/branches  756ms  rl=4800
+18:38:09.520  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/contributors?per_page=30
+18:38:10.469  NET   [HTTP              ] ← 204 GET /repos/kumaritkahs-max/Hello/contributors  948ms  rl=4798
+18:38:10.486  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/languages
+18:38:11.308  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Hello/languages  821ms  rl=4796
+18:38:11.614  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/branches?per_page=100
+18:38:12.475  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Hello/branches  861ms  rl=4794
+18:38:12.512  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/contents/.gitignore?ref=main
+18:38:13.199  NET   [HTTP              ] ← 404 GET /repos/kumaritkahs-max/Hello/contents/.gitignore  687ms  rl=4852
+18:38:40.507  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello
+18:38:41.365  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Hello  858ms  rl=4850
+18:38:41.382  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/Hello
+18:38:42.019  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/Hello  637ms  rl=4848
+18:38:42.046  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/branches?per_page=100
+18:38:42.810  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Hello/branches  764ms  rl=4792
+18:38:42.827  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/contributors?per_page=30
+18:38:43.671  NET   [HTTP              ] ← 204 GET /repos/kumaritkahs-max/Hello/contributors  844ms  rl=4790
+18:38:43.701  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/languages
+18:38:44.557  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Hello/languages  856ms  rl=4788
+18:38:54.831  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/contents?ref=main
+18:38:55.640  NET   [HTTP              ] ← 404 GET /repos/kumaritkahs-max/Hello/contents  809ms  rl=4846
+18:38:57.382  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/branches?per_page=100
+18:38:58.163  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/Hello/branches  782ms  rl=4786
+18:38:58.216  NET   [HTTP              ] → GET /repos/kumaritkahs-max/Hello/contents/.gitignore?ref=main
+18:38:58.923  NET   [HTTP              ] ← 404 GET /repos/kumaritkahs-max/Hello/contents/.gitignore  708ms  rl=4844

@@ -132,4 +132,38 @@ fun FilesScreen(
             dismissButton = { TextButton(onClick = { bulkDelete = false }) { Text("Cancel") } }
         )
     }
+    showRename?.let { item ->
+        val parent = item.path.substringBeforeLast('/', "")
+        var newName by remember(item.path) { mutableStateOf(item.name) }
+        var msg by remember(item.path) { mutableStateOf("Rename ${item.name}") }
+        AlertDialog(
+            onDismissRequest = { showRename = null },
+            title = { Text("Rename file") },
+            text = {
+                Column {
+                    OutlinedTextField(
+                        newName, { newName = it },
+                        label = { Text("New name") }, singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        msg, { msg = it },
+                        label = { Text("Commit message") }, singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    enabled = newName.isNotBlank() && newName != item.name,
+                    onClick = {
+                        val target = if (parent.isBlank()) newName else "$parent/$newName"
+                        vm.renamePath(item, target, msg) { showRename = null }
+                    }
+                ) { Text("Rename") }
+            },
+            dismissButton = { TextButton(onClick = { showRename = null }) { Text("Cancel") } }
+        )
+    }
 }

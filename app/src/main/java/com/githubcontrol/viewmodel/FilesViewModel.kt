@@ -7,6 +7,7 @@ import com.githubcontrol.data.api.GhBranch
 import com.githubcontrol.data.api.GhContent
 import com.githubcontrol.data.api.PutFileRequest
 import com.githubcontrol.data.repository.GitHubRepository
+import com.githubcontrol.utils.fromBase64
 import com.githubcontrol.utils.toBase64
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -74,6 +75,23 @@ class FilesViewModel @Inject constructor(private val repo: GitHubRepository) : V
             try {
                 repo.api.putFile(s.owner, s.name, newPath, PutFileRequest(message, contentBytes.toBase64(), null, s.ref.ifBlank { null }))
                 repo.api.deleteFile(s.owner, s.name, oldPath, DeleteFileRequest(message, sha, s.ref.ifBlank { null }))
+                load(s.owner, s.name, s.path, s.ref); onDone()
+            } catch (t: Throwable) { _state.value = _state.value.copy(error = t.message) }
+        }
+    }
+
+    /**
+     * Convenience overload: fetches the file's bytes from GitHub itself, then commits a
+     * new path + deletes the old one. Used by the swipe-rename UI in [FilesScreen].
+     */
+    fun renamePath(item: GhContent, newPath: String, message: String, onDone: () -> Unit) {
+        val s = _state.value
+        viewModelScope.launch {
+            try {
+                val full = repo.fileContent(s.owner, s.name, item.path, s.ref.ifBlank { null })
+                val bytes = full.content?.fromBase64() ?: ByteArray(0)
+                repo.api.putFile(s.owner, s.name, newPath, PutFileRequest(message, bytes.toBase64(), null, s.ref.ifBlank { null }))
+                repo.api.deleteFile(s.owner, s.name, item.path, DeleteFileRequest(message, item.sha, s.ref.ifBlank { null }))
                 load(s.owner, s.name, s.path, s.ref); onDone()
             } catch (t: Throwable) { _state.value = _state.value.copy(error = t.message) }
         }

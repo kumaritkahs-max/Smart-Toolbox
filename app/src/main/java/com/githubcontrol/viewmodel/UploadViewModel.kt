@@ -34,7 +34,11 @@ data class UploadFormState(
     val totalFiles: Int = 0,
     val branches: List<String> = emptyList(),
     val dryRun: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    /** Subfolders shown in the folder-browser bottom sheet. */
+    val browsePath: String = "",
+    val browseFolders: List<String> = emptyList(),
+    val browseLoading: Boolean = false
 )
 
 @HiltViewModel
@@ -101,4 +105,29 @@ class UploadViewModel @Inject constructor(
     fun pause() = uploadManager.pause()
     fun resume() = uploadManager.resume()
     fun cancel() = uploadManager.cancel()
+
+    /**
+     * Loads the list of subfolders at [path] in the destination repo so the UI can show
+     * a real folder browser instead of asking the user to type the path. Files are filtered
+     * out — only directories matter when picking a target.
+     */
+    fun browseFolder(path: String) {
+        val s = _form.value
+        if (s.owner.isBlank() || s.repo.isBlank()) return
+        viewModelScope.launch {
+            _form.value = s.copy(browsePath = path, browseLoading = true, browseFolders = emptyList())
+            val folders = runCatching {
+                repo.contents(s.owner, s.repo, path, s.branch.ifBlank { null })
+                    .filter { it.type == "dir" }
+                    .map { it.name }
+                    .sortedBy { it.lowercase() }
+            }.getOrDefault(emptyList())
+            _form.value = _form.value.copy(browseFolders = folders, browseLoading = false)
+        }
+    }
+
+    fun applyBrowsedFolder() {
+        val s = _form.value
+        setTarget(s.browsePath)
+    }
 }

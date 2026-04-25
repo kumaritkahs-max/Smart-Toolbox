@@ -2,6 +2,7 @@ package com.githubcontrol.upload
 
 import android.content.Context
 import android.net.Uri
+import android.provider.DocumentsContract
 import androidx.documentfile.provider.DocumentFile
 import com.githubcontrol.data.api.PutFileRequest
 import com.githubcontrol.data.repository.GitHubRepository
@@ -87,13 +88,25 @@ class UploadManager @Inject constructor(
         val files = mutableListOf<UploadFile>()
         var total = 0L
         for (uri in uris) {
-            val df = DocumentFile.fromTreeUri(context, uri) ?: DocumentFile.fromSingleUri(context, uri)
-            if (df != null && df.isDirectory) collectDir(df, targetFolder, files, gitignore) else if (df != null) {
-                val tname = df.name ?: "file"
-                val target = joinPath(targetFolder, tname)
-                if (gitignore?.isIgnored(target, false) != true) {
-                    files += UploadFile(uri.toString(), tname, target, df.length())
-                    total += df.length()
+            // OpenMultipleDocuments returns "single" document URIs; OpenDocumentTree returns "tree" URIs.
+            // DocumentFile.fromTreeUri throws IllegalArgumentException on the former, so detect first.
+            val df: DocumentFile? = runCatching {
+                if (DocumentsContract.isTreeUri(uri)) DocumentFile.fromTreeUri(context, uri)
+                else DocumentFile.fromSingleUri(context, uri)
+            }.getOrNull() ?: runCatching { DocumentFile.fromSingleUri(context, uri) }.getOrNull()
+
+            when {
+                df == null -> {
+                    Logger.w("Upload", "skip unreadable URI $uri")
+                }
+                df.isDirectory -> collectDir(df, targetFolder, files, gitignore)
+                else -> {
+                    val tname = df.name ?: "file"
+                    val target = joinPath(targetFolder, tname)
+                    if (gitignore?.isIgnored(target, false) != true) {
+                        files += UploadFile(uri.toString(), tname, target, df.length())
+                        total += df.length()
+                    }
                 }
             }
         }

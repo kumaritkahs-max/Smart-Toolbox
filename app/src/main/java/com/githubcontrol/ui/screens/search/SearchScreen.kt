@@ -16,18 +16,29 @@ import com.githubcontrol.ui.components.LoadingIndicator
 import com.githubcontrol.ui.navigation.Routes
 import com.githubcontrol.viewmodel.SearchKind
 import com.githubcontrol.viewmodel.SearchViewModel
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(onBack: () -> Unit, onNavigate: (String) -> Unit, vm: SearchViewModel = hiltViewModel()) {
     val s by vm.state.collectAsState()
+
+    // Debounced auto-search: re-runs 400ms after the user stops typing or switches kind.
+    // Skips empty queries and trims to ≥2 chars to avoid hammering the API.
+    LaunchedEffect(s.q, s.kind) {
+        val q = s.q.trim()
+        if (q.length < 2) return@LaunchedEffect
+        delay(400)
+        vm.search()
+    }
+
     Scaffold(topBar = {
         TopAppBar(title = { Text("Search") },
             navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, null) } })
     }) { pad ->
         Column(Modifier.padding(pad).fillMaxSize().padding(12.dp)) {
             OutlinedTextField(s.q, { vm.setQ(it) }, leadingIcon = { Icon(Icons.Filled.Search, null) },
-                placeholder = { Text("Type a query and press Enter") }, singleLine = true,
+                placeholder = { Text("Type at least 2 characters — auto-searches as you type") }, singleLine = true,
                 modifier = Modifier.fillMaxWidth(), trailingIcon = { TextButton(onClick = { vm.search() }) { Text("Go") } })
             Spacer(Modifier.height(8.dp))
             TabRow(selectedTabIndex = SearchKind.values().indexOf(s.kind)) {

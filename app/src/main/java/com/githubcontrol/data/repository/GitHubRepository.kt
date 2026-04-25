@@ -116,11 +116,21 @@ class GitHubRepository @Inject constructor(
         api.deleteRef(owner, name, "heads/$branch")
     }
 
-    suspend fun renameBranch(owner: String, name: String, oldName: String, newName: String) {
-        val src = api.branch(owner, name, oldName)
-        api.createRef(owner, name, CreateRefRequest("refs/heads/$newName", src.commit.sha))
-        api.deleteRef(owner, name, "heads/$oldName")
-    }
+    /**
+     * Use GitHub's dedicated branch-rename endpoint when possible (single, atomic call,
+     * also moves protections, PR head refs, etc.). Falls back to the legacy create+delete
+     * dance only if the dedicated endpoint refuses (e.g. older GHES instance).
+     */
+    suspend fun renameBranch(owner: String, name: String, oldName: String, newName: String) =
+        withContext(Dispatchers.IO) {
+            runCatching { api.renameBranch(owner, name, oldName, RenameBranchRequest(newName)) }
+                .getOrElse {
+                    val src = api.branch(owner, name, oldName)
+                    api.createRef(owner, name, CreateRefRequest("refs/heads/$newName", src.commit.sha))
+                    api.deleteRef(owner, name, "heads/$oldName")
+                    api.branch(owner, name, newName)
+                }
+        }
 
     // ---------- Branch protection ----------
     suspend fun branchProtection(owner: String, name: String, branch: String): BranchProtection? = withContext(Dispatchers.IO) {

@@ -170,13 +170,23 @@ fun RepoDetailScreen(
                 }
             }
 
-            if (dangerousMode) {
-                GhCard {
-                    Text("Danger zone", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.error)
-                    Spacer(Modifier.height(8.dp))
-                    Button(onClick = { showDelete = true }, colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)) {
-                        Text("Delete this repository")
-                    }
+            // Danger zone — always shown. Delete itself is gated by typing the repo name in the
+            // confirm dialog, so an explicit "dangerous mode" toggle is no longer required.
+            GhCard {
+                Text("Danger zone", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.error)
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    if (dangerousMode) "Dangerous mode is on — actions execute without extra confirmation."
+                    else "You'll be asked to type the repository name to confirm.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Spacer(Modifier.height(8.dp))
+                Button(
+                    onClick = { showDelete = true },
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                ) {
+                    Icon(Icons.Filled.DeleteForever, null); Spacer(Modifier.width(6.dp)); Text("Delete this repository")
                 }
             }
             if (s.actionMessage != null) {

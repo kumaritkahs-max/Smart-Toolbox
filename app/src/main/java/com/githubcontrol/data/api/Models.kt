@@ -353,8 +353,28 @@ data class DeleteFileRequest(
     val branch: String? = null
 )
 
+/**
+ * The PUT /contents endpoint returns a *trimmed* commit object whose author/committer
+ * use the {name, email, date} shape (GhCommitAuthor) — NOT the full GhUser shape.
+ * Using GhCommit here causes MissingFieldException ("login", "id", "avatar_url").
+ */
 @Serializable
-data class PutFileResponse(val content: GhContent? = null, val commit: GhCommit? = null)
+data class PutFileCommit(
+    val sha: String,
+    @SerialName("node_id") val nodeId: String? = null,
+    val message: String? = null,
+    val author: GhCommitAuthor? = null,
+    val committer: GhCommitAuthor? = null,
+    @SerialName("html_url") val htmlUrl: String? = null,
+    val tree: GhTreeRef? = null,
+    val parents: List<GhCommitParent> = emptyList()
+)
+
+@Serializable
+data class PutFileResponse(val content: GhContent? = null, val commit: PutFileCommit? = null)
+
+@Serializable
+data class RenameBranchRequest(@SerialName("new_name") val newName: String)
 
 @Serializable
 data class CreateBranchRequest(val ref: String, val sha: String)

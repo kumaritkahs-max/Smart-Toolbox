@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -43,6 +44,7 @@ import coil.compose.AsyncImage
 import com.githubcontrol.ui.components.GhBadge
 import com.githubcontrol.ui.components.GhCard
 import com.githubcontrol.ui.components.LoadingIndicator
+import com.githubcontrol.ui.theme.LocalTerminalTheme
 import com.githubcontrol.utils.Logger
 import com.githubcontrol.utils.ShareUtils
 import com.githubcontrol.viewmodel.PreviewKind
@@ -165,15 +167,16 @@ private fun TextView(
     if (editing) {
         EditorBox(edited, onEdit, msg, onMsg)
     } else {
+        val palette = LocalTerminalTheme.current
         Box(
-            Modifier.fillMaxSize().background(Color(0xFF0D1117), RoundedCornerShape(10.dp))
+            Modifier.fillMaxSize().background(palette.bg, RoundedCornerShape(10.dp))
                 .verticalScroll(rememberScrollState())
                 .horizontalScroll(rememberScrollState())
                 .padding(12.dp)
         ) {
             Text(
                 text.ifEmpty { "(empty file)" },
-                color = Color(0xFFE6EDF3),
+                color = palette.fg,
                 fontFamily = FontFamily.Monospace,
                 fontSize = 12.sp
             )
@@ -216,7 +219,10 @@ private fun SvgView(text: String?) {
     if (text == null) {
         Text("SVG data unavailable.")
     } else {
-        HtmlView("<html><body style='margin:0;background:#0D1117;color:#E6EDF3'>$text</body></html>")
+        val palette = LocalTerminalTheme.current
+        val bgHex = "#%06X".format(0xFFFFFF and palette.bg.toArgb())
+        val fgHex = "#%06X".format(0xFFFFFF and palette.fg.toArgb())
+        HtmlView("<html><body style='margin:0;background:$bgHex;color:$fgHex'>$text</body></html>")
     }
 }
 
@@ -319,8 +325,9 @@ private fun ArchiveView(bytes: ByteArray?) {
             list
         }.getOrElse { listOf("(not a recognized archive: ${it.message})") }
     }
-    LazyColumn(modifier = Modifier.fillMaxSize().background(Color(0xFF0D1117), RoundedCornerShape(8.dp)).padding(10.dp)) {
-        items(entries) { Text(it, color = Color(0xFFE6EDF3), fontFamily = FontFamily.Monospace, fontSize = 12.sp) }
+    val palette = LocalTerminalTheme.current
+    LazyColumn(modifier = Modifier.fillMaxSize().background(palette.bg, RoundedCornerShape(8.dp)).padding(10.dp)) {
+        items(entries) { Text(it, color = palette.fg, fontFamily = FontFamily.Monospace, fontSize = 12.sp) }
     }
 }
 
@@ -331,11 +338,12 @@ private fun HexDumpView(bytes: ByteArray?) {
         return
     }
     val dump = remember(bytes) { hexDump(bytes, max = 8192) }
+    val palette = LocalTerminalTheme.current
     Box(
-        Modifier.fillMaxSize().background(Color(0xFF0D1117), RoundedCornerShape(8.dp))
+        Modifier.fillMaxSize().background(palette.bg, RoundedCornerShape(8.dp))
             .verticalScroll(rememberScrollState()).padding(10.dp)
     ) {
-        Text(dump, color = Color(0xFFE6EDF3), fontFamily = FontFamily.Monospace, fontSize = 11.sp)
+        Text(dump, color = palette.fg, fontFamily = FontFamily.Monospace, fontSize = 11.sp)
     }
 }
 

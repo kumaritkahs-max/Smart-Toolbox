@@ -1,0 +1,112 @@
+# GitHub Control crash report
+Timestamp:   Sat Apr 25 18:43:55 GMT+05:30 2026  (epoch=1777122835713)
+Type:        uncaught
+Thread:      main (id=2, prio=5)
+Exception:   java.lang.RuntimeException: Failure delivering result ResultInfo{who=null, request=932912259, result=-1, data=Intent { dat=content://com.android.externalstorage.documents/... flg=0x43 }} to activity {com.githubcontrol/com.githubcontrol.MainActivity}: java.lang.IllegalArgumentException: Invalid URI: content://com.android.externalstorage.documents/document/primary%3Aerror%2Fjob-logs%20(1).txt
+
+# Device
+Brand:       Infinix
+Model:       Infinix X6857B
+Manufacturer:INFINIX
+Product:     X6857B-IN
+Android:     15 (sdk 35)
+ABI:         arm64-v8a
+App version: 1.0.0
+
+# Stack trace
+java.lang.RuntimeException: Failure delivering result ResultInfo{who=null, request=932912259, result=-1, data=Intent { dat=content://com.android.externalstorage.documents/... flg=0x43 }} to activity {com.githubcontrol/com.githubcontrol.MainActivity}: java.lang.IllegalArgumentException: Invalid URI: content://com.android.externalstorage.documents/document/primary%3Aerror%2Fjob-logs%20(1).txt
+	at android.app.ActivityThread.deliverResults(ActivityThread.java:6206)
+	at android.app.ActivityThread.handleSendResult(ActivityThread.java:6245)
+	at android.app.servertransaction.ActivityResultItem.execute(ActivityResultItem.java:69)
+	at android.app.servertransaction.ActivityTransactionItem.execute(ActivityTransactionItem.java:60)
+	at android.app.servertransaction.TransactionExecutor.executeNonLifecycleItem(TransactionExecutor.java:174)
+	at android.app.servertransaction.TransactionExecutor.executeTransactionItems(TransactionExecutor.java:109)
+	at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:81)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2786)
+	at android.os.Handler.dispatchMessage(Handler.java:107)
+	at android.os.Looper.loopOnce(Looper.java:311)
+	at android.os.Looper.loop(Looper.java:408)
+	at android.app.ActivityThread.main(ActivityThread.java:9119)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:627)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:970)
+Caused by: java.lang.IllegalArgumentException: Invalid URI: content://com.android.externalstorage.documents/document/primary%3Aerror%2Fjob-logs%20(1).txt
+	at android.provider.DocumentsContract.getTreeDocumentId(DocumentsContract.java:1289)
+	at androidx.documentfile.provider.DocumentFile.fromTreeUri(DocumentFile.java:136)
+	at com.githubcontrol.upload.UploadManager.buildJob(UploadManager.kt:90)
+	at com.githubcontrol.viewmodel.UploadViewModel.setUris(UploadViewModel.kt:70)
+	at com.githubcontrol.ui.screens.upload.UploadScreenKt.UploadScreen$lambda$2(UploadScreen.kt:35)
+	at com.githubcontrol.ui.screens.upload.UploadScreenKt.$r8$lambda$-KekAfoGiaINVwvnaW-7CpX-TWI(Unknown Source:0)
+	at com.githubcontrol.ui.screens.upload.UploadScreenKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
+	at androidx.activity.compose.ActivityResultRegistryKt$rememberLauncherForActivityResult$1$1.invoke$lambda$0(ActivityResultRegistry.kt:106)
+	at androidx.activity.compose.ActivityResultRegistryKt$rememberLauncherForActivityResult$1$1.$r8$lambda$VLs2Oqd6MzDD-LGilzyhNhDSH_4(Unknown Source:0)
+	at androidx.activity.compose.ActivityResultRegistryKt$rememberLauncherForActivityResult$1$1$$ExternalSyntheticLambda0.onActivityResult(D8$$SyntheticClass:0)
+	at androidx.activity.result.ActivityResultRegistry.doDispatch(ActivityResultRegistry.kt:371)
+	at androidx.activity.result.ActivityResultRegistry.dispatchResult(ActivityResultRegistry.kt:331)
+	at androidx.activity.ComponentActivity.onActivityResult(ComponentActivity.kt:786)
+	at android.app.Activity.onActivityResult(Activity.java:7514)
+	at android.app.Activity.internalDispatchActivityResult(Activity.java:9426)
+	at android.app.Activity.dispatchActivityResult(Activity.java:9403)
+	at android.app.ActivityThread.deliverResults(ActivityThread.java:6195)
+	... 14 more
+
+# Caused by (1)
+java.lang.IllegalArgumentException: Invalid URI: content://com.android.externalstorage.documents/document/primary%3Aerror%2Fjob-logs%20(1).txt
+	at android.provider.DocumentsContract.getTreeDocumentId(DocumentsContract.java:1289)
+	at androidx.documentfile.provider.DocumentFile.fromTreeUri(DocumentFile.java:136)
+	at com.githubcontrol.upload.UploadManager.buildJob(UploadManager.kt:90)
+	at com.githubcontrol.viewmodel.UploadViewModel.setUris(UploadViewModel.kt:70)
+	at com.githubcontrol.ui.screens.upload.UploadScreenKt.UploadScreen$lambda$2(UploadScreen.kt:35)
+	at com.githubcontrol.ui.screens.upload.UploadScreenKt.$r8$lambda$-KekAfoGiaINVwvnaW-7CpX-TWI(Unknown Source:0)
+	at com.githubcontrol.ui.screens.upload.UploadScreenKt$$ExternalSyntheticLambda0.invoke(D8$$SyntheticClass:0)
+	at androidx.activity.compose.ActivityResultRegistryKt$rememberLauncherForActivityResult$1$1.invoke$lambda$0(ActivityResultRegistry.kt:106)
+	at androidx.activity.compose.ActivityResultRegistryKt$rememberLauncherForActivityResult$1$1.$r8$lambda$VLs2Oqd6MzDD-LGilzyhNhDSH_4(Unknown Source:0)
+	at androidx.activity.compose.ActivityResultRegistryKt$rememberLauncherForActivityResult$1$1$$ExternalSyntheticLambda0.onActivityResult(D8$$SyntheticClass:0)
+	at androidx.activity.result.ActivityResultRegistry.doDispatch(ActivityResultRegistry.kt:371)
+	at androidx.activity.result.ActivityResultRegistry.dispatchResult(ActivityResultRegistry.kt:331)
+	at androidx.activity.ComponentActivity.onActivityResult(ComponentActivity.kt:786)
+	at android.app.Activity.onActivityResult(Activity.java:7514)
+	at android.app.Activity.internalDispatchActivityResult(Activity.java:9426)
+	at android.app.Activity.dispatchActivityResult(Activity.java:9403)
+	at android.app.ActivityThread.deliverResults(ActivityThread.java:6195)
+	at android.app.ActivityThread.handleSendResult(ActivityThread.java:6245)
+	at android.app.servertransaction.ActivityResultItem.execute(ActivityResultItem.java:69)
+	at android.app.servertransaction.ActivityTransactionItem.execute(ActivityTransactionItem.java:60)
+	at android.app.servertransaction.TransactionExecutor.executeNonLifecycleItem(TransactionExecutor.java:174)
+	at android.app.servertransaction.TransactionExecutor.executeTransactionItems(TransactionExecutor.java:109)
+	at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:81)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2786)
+	at android.os.Handler.dispatchMessage(Handler.java:107)
+	at android.os.Looper.loopOnce(Looper.java:311)
+	at android.os.Looper.loop(Looper.java:408)
+	at android.app.ActivityThread.main(ActivityThread.java:9119)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:627)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:970)
+
+# Recent in-app log (last 200 entries)
+18:43:07.757  INFO  [CrashHandler      ] installed → /data/user/0/com.githubcontrol/files/crashes
+18:43:07.761  INFO  [WidgetCtl         ] started — observing upload state
+18:43:07.761  INFO  [App               ] GitHub Control starting v1.0.0
+18:43:10.635  NET   [HTTP              ] → GET /user
+18:43:11.287  NET   [HTTP              ] ← 200 GET /user  652ms  rl=4747
+18:43:11.331  NET   [HTTP              ] → GET /user/repos?affiliation=owner,collaborator,organization_member&sort=updated&direction=desc&per_page=8&page=1
+18:43:11.799  NET   [HTTP              ] ← 200 GET /user/repos  469ms  rl=4746
+18:43:11.849  NET   [HTTP              ] → GET /rate_limit
+18:43:12.180  NET   [HTTP              ] ← 200 GET /rate_limit  331ms  rl=4824
+18:43:12.210  NET   [HTTP              ] → GET /notifications?all=false&per_page=50
+18:43:12.599  NET   [HTTP              ] ← 200 GET /notifications  389ms  rl=4745
+18:43:14.757  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing
+18:43:15.180  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing  423ms  rl=4823
+18:43:15.218  NET   [HTTP              ] → GET /user/starred/kumaritkahs-max/testing
+18:43:15.543  NET   [HTTP              ] ← 404 GET /user/starred/kumaritkahs-max/testing  325ms  rl=4822
+18:43:15.570  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:43:15.961  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  391ms  rl=4744
+18:43:15.990  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contributors?per_page=30
+18:43:16.367  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/contributors  376ms  rl=4743
+18:43:16.411  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/languages
+18:43:16.775  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/languages  364ms  rl=4742
+18:43:25.017  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/branches?per_page=100
+18:43:25.533  NET   [HTTP              ] ← 200 GET /repos/kumaritkahs-max/testing/branches  516ms  rl=4741
+18:43:25.562  NET   [HTTP              ] → GET /repos/kumaritkahs-max/testing/contents/.gitignore?ref=main
+18:43:25.941  NET   [HTTP              ] ← 404 GET /repos/kumaritkahs-max/testing/contents/.gitignore  378ms  rl=4821

@@ -118,6 +118,13 @@ interface GitHubApi {
     @GET("repos/{owner}/{repo}/branches/{branch}")
     suspend fun branch(@Path("owner") owner: String, @Path("repo") repo: String, @Path("branch") branch: String): GhBranch
 
+    /** GitHub's dedicated branch-rename endpoint (single, atomic operation). */
+    @POST("repos/{owner}/{repo}/branches/{branch}/rename")
+    suspend fun renameBranch(
+        @Path("owner") owner: String, @Path("repo") repo: String, @Path("branch") branch: String,
+        @Body body: RenameBranchRequest
+    ): GhBranch
+
     @GET("repos/{owner}/{repo}/git/ref/{ref}")
     suspend fun ref(@Path("owner") owner: String, @Path("repo") repo: String, @Path("ref", encoded = true) ref: String): GhRef
 

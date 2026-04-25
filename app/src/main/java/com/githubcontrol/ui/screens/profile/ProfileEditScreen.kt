@@ -23,12 +23,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/** Snapshot of the values returned by /user, used to compute a minimal PATCH on save. */
+data class ProfileSnapshot(
+    val name: String = "", val email: String = "", val blog: String = "",
+    val bio: String = "", val company: String = "", val location: String = "",
+    val twitter: String = "", val hireable: Boolean = false
+)
+
 data class ProfileForm(
     val loading: Boolean = true,
     val saving: Boolean = false,
     val name: String = "", val email: String = "", val blog: String = "",
     val bio: String = "", val company: String = "", val location: String = "",
     val twitter: String = "", val hireable: Boolean = false,
+    val original: ProfileSnapshot = ProfileSnapshot(),
     val message: String? = null, val error: String? = null
 )
 
@@ -39,11 +47,17 @@ class ProfileEditViewModel @Inject constructor(private val repo: GitHubRepositor
         viewModelScope.launch {
             try {
                 val u = repo.api.me()
-                form.value = ProfileForm(
-                    loading = false, name = u.name.orEmpty(), email = u.email.orEmpty(),
+                val snap = ProfileSnapshot(
+                    name = u.name.orEmpty(), email = u.email.orEmpty(),
                     blog = u.blog.orEmpty(), bio = u.bio.orEmpty(),
                     company = u.company.orEmpty(), location = u.location.orEmpty(),
                     twitter = u.twitterUsername.orEmpty(), hireable = u.hireable ?: false
+                )
+                form.value = ProfileForm(
+                    loading = false,
+                    name = snap.name, email = snap.email, blog = snap.blog, bio = snap.bio,
+                    company = snap.company, location = snap.location, twitter = snap.twitter,
+                    hireable = snap.hireable, original = snap
                 )
             } catch (t: Throwable) {
                 form.value = ProfileForm(loading = false, error = t.message)
@@ -53,17 +67,36 @@ class ProfileEditViewModel @Inject constructor(private val repo: GitHubRepositor
     fun update(transform: (ProfileForm) -> ProfileForm) { form.value = transform(form.value) }
     fun save() {
         val f = form.value
+        // Send only what actually changed so we don't trip GitHub's "you are not allowed to
+        // change `hireable`" or similar restrictions when the field is left untouched.
+        val o = f.original
+        val req = UpdateUserRequest(
+            name = if (f.name != o.name) f.name.ifBlank { null } else null,
+            email = if (f.email != o.email) f.email.ifBlank { null } else null,
+            blog = if (f.blog != o.blog) f.blog.ifBlank { null } else null,
+            bio = if (f.bio != o.bio) f.bio.ifBlank { null } else null,
+            company = if (f.company != o.company) f.company.ifBlank { null } else null,
+            location = if (f.location != o.location) f.location.ifBlank { null } else null,
+            twitterUsername = if (f.twitter != o.twitter) f.twitter.ifBlank { null } else null,
+            hireable = if (f.hireable != o.hireable) f.hireable else null
+        )
+        if (req.name == null && req.email == null && req.blog == null && req.bio == null
+            && req.company == null && req.location == null && req.twitterUsername == null
+            && req.hireable == null) {
+            form.value = f.copy(message = "No changes to save.")
+            return
+        }
         viewModelScope.launch {
             form.value = f.copy(saving = true, error = null, message = null)
             try {
-                repo.updateMe(UpdateUserRequest(
-                    name = f.name.ifBlank { null }, email = f.email.ifBlank { null },
-                    blog = f.blog.ifBlank { null }, bio = f.bio.ifBlank { null },
-                    company = f.company.ifBlank { null }, location = f.location.ifBlank { null },
-                    twitterUsername = f.twitter.ifBlank { null }, hireable = f.hireable
-                ))
-                Logger.i("Profile", "saved profile updates")
-                form.value = f.copy(saving = false, message = "Saved.")
+                repo.updateMe(req)
+                Logger.i("Profile", "saved profile updates (changed-fields-only)")
+                form.value = f.copy(
+                    saving = false, message = "Saved.",
+                    original = ProfileSnapshot(
+                        f.name, f.email, f.blog, f.bio, f.company, f.location, f.twitter, f.hireable
+                    )
+                )
             } catch (t: Throwable) {
                 Logger.e("Profile", "save failed", t)
                 form.value = f.copy(saving = false, error = t.message)
