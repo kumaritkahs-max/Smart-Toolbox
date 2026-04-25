@@ -44,6 +44,7 @@ object Routes {
     const val APPEARANCE = "appearance"
     const val ABOUT = "about"
     const val HEALTH = "health"
+    const val ONBOARDING = "onboarding"
 
     fun repoDetail(owner: String, name: String) = "repo/$owner/$name"
     fun files(owner: String, name: String, path: String = "", ref: String = "") =

@@ -101,7 +101,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <!-- Home-screen widget -->
+        <!-- Home-screen widgets — three sizes: small (2x1), medium (4x2), large (4x3+) -->
         <receiver
             android:name=".widget.GhControlWidgetProvider"
             android:exported="true"
@@ -113,6 +113,42 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_control_info" />
+        </receiver>
+        <receiver
+            android:name=".widget.SmallWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.githubcontrol.widget.REFRESH_ALL" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_small_info" />
+        </receiver>
+        <receiver
+            android:name=".widget.MediumWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.githubcontrol.widget.REFRESH_ALL" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_medium_info" />
+        </receiver>
+        <receiver
+            android:name=".widget.LargeWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.githubcontrol.widget.REFRESH_ALL" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_large_info" />
         </receiver>
     </application>
 </manifest>

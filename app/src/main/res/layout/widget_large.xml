@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="14dp"
+    android:background="@drawable/widget_background">
+
+    <!-- Header: title + status pill -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/widget_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="GitHub Control"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/widget_pill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="● synced"
+            android:textColor="#0D1117"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:background="@drawable/widget_pill_synced" />
+    </LinearLayout>
+
+    <!-- Repo + last commit -->
+    <TextView
+        android:id="@+id/widget_repo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text=""
+        android:textColor="#CFE3FF"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end" />
+
+    <TextView
+        android:id="@+id/widget_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Tap to open"
+        android:textColor="#9DA9B7"
+        android:textSize="11sp"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+    <!-- Live upload progress section (auto shown when running) -->
+    <LinearLayout
+        android:id="@+id/widget_progress_block"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/widget_progress_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="middle" />
+
+        <ProgressBar
+            android:id="@+id/widget_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="3dp"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/widget_progress" />
+    </LinearLayout>
+
+    <!-- Pinned repo / recent activity list -->
+    <TextView
+        android:id="@+id/widget_pinned_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Recent activity"
+        android:textColor="#9DA9B7"
+        android:textSize="10sp"
+        android:textAllCaps="true"
+        android:letterSpacing="0.06" />
+
+    <TextView
+        android:id="@+id/widget_pinned"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="2dp"
+        android:text="—"
+        android:textColor="#CFE3FF"
+        android:textSize="11sp"
+        android:maxLines="4"
+        android:ellipsize="end" />
+
+    <!-- Action grid: Upload / Sync / Pull / Push / Open -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/widget_upload"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="3dp"
+            android:text="Upload"
+            android:textColor="#0D1117"
+            android:textSize="10sp"
+            android:minHeight="0dp"
+            android:padding="6dp"
+            android:background="@drawable/widget_button_bg" />
+
+        <Button
+            android:id="@+id/widget_sync"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="3dp"
+            android:text="Sync"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp"
+            android:minHeight="0dp"
+            android:padding="6dp"
+            android:background="@drawable/widget_button_outline" />
+
+        <Button
+            android:id="@+id/widget_pull"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="3dp"
+            android:text="Pull"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp"
+            android:minHeight="0dp"
+            android:padding="6dp"
+            android:background="@drawable/widget_button_outline" />
+
+        <Button
+            android:id="@+id/widget_push"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="3dp"
+            android:text="Push"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp"
+            android:minHeight="0dp"
+            android:padding="6dp"
+            android:background="@drawable/widget_button_outline" />
+
+        <Button
+            android:id="@+id/widget_open"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Open"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp"
+            android:minHeight="0dp"
+            android:padding="6dp"
+            android:background="@drawable/widget_button_outline" />
+    </LinearLayout>
+</LinearLayout>

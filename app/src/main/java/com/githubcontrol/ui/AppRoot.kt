@@ -36,6 +36,7 @@ import com.githubcontrol.ui.screens.issues.CreateIssueScreen
 import com.githubcontrol.ui.screens.issues.IssueDetailScreen
 import com.githubcontrol.ui.screens.issues.IssuesScreen
 import com.githubcontrol.ui.screens.notifications.NotificationsScreen
+import com.githubcontrol.ui.screens.onboarding.OnboardingScreen
 import com.githubcontrol.ui.screens.plugins.PluginsScreen
 import com.githubcontrol.ui.screens.pulls.CreatePullScreen
 import com.githubcontrol.ui.screens.pulls.PullDetailScreen
@@ -64,6 +65,7 @@ fun AppRoot() {
     val density by am.densityFlow.collectAsState(initial = "comfortable")
     val corner by am.cornerRadiusFlow.collectAsState(initial = 14)
     val terminal by am.terminalThemeFlow.collectAsState(initial = "github-dark")
+    val onboardingDone by am.onboardingCompletedFlow.collectAsState(initial = true)
 
     val settings = ThemeSettings(
         mode = theme, accentKey = accent, dynamicColor = dynamic, amoled = amoled,
@@ -74,8 +76,9 @@ fun AppRoot() {
     GitHubControlTheme(settings = settings) {
         val nav = rememberNavController()
 
-        LaunchedEffect(state.loggedIn, state.locked) {
+        LaunchedEffect(state.loggedIn, state.locked, onboardingDone) {
             val target = when {
+                !onboardingDone -> Routes.ONBOARDING
                 !state.loggedIn -> Routes.LOGIN
                 state.locked -> Routes.BIOMETRIC
                 else -> Routes.DASHBOARD
@@ -85,7 +88,13 @@ fun AppRoot() {
             }
         }
 
-        NavHost(navController = nav, startDestination = Routes.LOGIN) {
+        val startDest = if (!onboardingDone) Routes.ONBOARDING else Routes.LOGIN
+        NavHost(navController = nav, startDestination = startDest) {
+            composable(Routes.ONBOARDING) {
+                OnboardingScreen(onFinish = {
+                    nav.navigate(Routes.LOGIN) { popUpTo(0) { inclusive = true } }
+                })
+            }
             composable(Routes.LOGIN) {
                 LoginScreen(main) { nav.navigate(Routes.DASHBOARD) { popUpTo(0) { inclusive = true } } }
             }

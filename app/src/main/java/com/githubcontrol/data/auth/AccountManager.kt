@@ -52,6 +52,7 @@ class AccountManager @Inject constructor(
     private val keyDensity = stringPreferencesKey("density")               // compact/comfortable/cozy
     private val keyCorner = intPreferencesKey("corner_radius")             // 0..28
     private val keyTerminalTheme = stringPreferencesKey("terminal_theme")  // github/dracula/solarized/mono
+    private val keyOnboardingDone = booleanPreferencesKey("onboarding_completed")
 
     val rateRemaining = MutableStateFlow<Int?>(null)
     fun updateRateRemaining(v: Int) { rateRemaining.value = v }
@@ -76,6 +77,9 @@ class AccountManager @Inject constructor(
     val densityFlow: Flow<String> = context.dataStore.data.map { it[keyDensity] ?: "comfortable" }
     val cornerRadiusFlow: Flow<Int> = context.dataStore.data.map { it[keyCorner] ?: 14 }
     val terminalThemeFlow: Flow<String> = context.dataStore.data.map { it[keyTerminalTheme] ?: "github-dark" }
+    val onboardingCompletedFlow: Flow<Boolean> = context.dataStore.data.map { it[keyOnboardingDone] ?: false }
+    suspend fun setOnboardingCompleted(done: Boolean) =
+        context.dataStore.edit { it[keyOnboardingDone] = done }
 
     private fun loadAccounts(): List<Account> {
         val raw = secure.getString(keyAccounts, null) ?: return emptyList()

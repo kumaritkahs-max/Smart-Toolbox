@@ -151,10 +151,31 @@ download from the run summary.
   (check updates, report issue, clear cache). Tap the version five times to
   reveal a **debug** badge.
 
-### Home-screen widget
-- Material 3 launcher widget with Open and Refresh actions
-- Subtitle reflects the latest published status (login, last sync, etc.)
-- Resizable (min 3×2 cells) and works on the system home screen
+### Home-screen widgets
+Three resizable widgets backed by a shared live-state store and a singleton
+`WidgetController` that subscribes to `UploadManager.state` and pushes a fresh
+snapshot to every active widget on every change.
+
+| Size | Cells | What it shows |
+|------|-------|---------------|
+| Small | 2×1 | Status pill (synced / pending / busy / failed) + repo name + Sync button |
+| Medium | 4×2 | Repo name, status pill, last commit / live progress line, Upload / Sync / Open |
+| Large | 4×3+ | Status pill, repo, last commit, **live upload progress bar** (auto-shown while running), recent activity list, full action grid: Upload · Sync · Pull · Push · Open |
+
+Smart context: the large widget swaps between "Recent activity" and the live
+progress block automatically based on `UploadManager` state. All widget buttons
+launch the app via `WidgetIntents` with an action extra so uploads can use the
+system file picker safely. State is persisted to a small JSON blob in
+SharedPreferences (`widget_state_v2`) so widgets render correctly even when the
+app process has been killed.
+
+### First-run tutorial
+A 7-page Material 3 onboarding pager (`OnboardingScreen`) shown automatically
+on first launch — guides the user through what the app does, how Personal
+Access Tokens work, what permissions are needed, where appearance lives, how
+to add a home-screen widget, and a list of power tips. Skip / Back / Next
+controls, animated indicator dots, and a one-time flag in `AccountManager`
+(`onboardingCompletedFlow`).
 
 ## Required permissions
 

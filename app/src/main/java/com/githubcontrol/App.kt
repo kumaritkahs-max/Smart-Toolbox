@@ -13,6 +13,7 @@ import javax.inject.Inject
 class App : Application(), Configuration.Provider {
 
     @Inject lateinit var workerFactory: HiltWorkerFactory
+    @Inject lateinit var widgetController: com.githubcontrol.widget.WidgetController
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
@@ -24,6 +25,7 @@ class App : Application(), Configuration.Provider {
         super.onCreate()
         com.githubcontrol.utils.CrashHandler.install(this)
         createNotificationChannels()
+        widgetController.start()
         com.githubcontrol.utils.Logger.i("App", "GitHub Control starting v${runCatching { packageManager.getPackageInfo(packageName, 0).versionName }.getOrNull() ?: "?"}")
     }
 

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@drawable/widget_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/widget_repo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="GitHub Control"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/widget_pill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="● synced"
+            android:textColor="#0D1117"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:background="@drawable/widget_pill_synced" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/widget_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Tap to open"
+        android:textColor="#CFE3FF"
+        android:textSize="11sp"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+    <ProgressBar
+        android:id="@+id/widget_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_marginTop="6dp"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/widget_progress"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/widget_upload"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:text="Upload"
+            android:textColor="#0D1117"
+            android:textSize="11sp"
+            android:minHeight="0dp"
+            android:padding="6dp"
+            android:background="@drawable/widget_button_bg" />
+
+        <Button
+            android:id="@+id/widget_sync"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="4dp"
+            android:text="Sync"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:minHeight="0dp"
+            android:padding="6dp"
+            android:background="@drawable/widget_button_outline" />
+
+        <Button
+            android:id="@+id/widget_open"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Open"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:minHeight="0dp"
+            android:padding="6dp"
+            android:background="@drawable/widget_button_outline" />
+    </LinearLayout>
+</LinearLayout>

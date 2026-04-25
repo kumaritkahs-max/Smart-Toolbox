@@ -13,4 +13,7 @@
     <string name="widget_description">Quick access to GitHub Control: open the app or refresh status.</string>
     <string name="widget_open">Open</string>
     <string name="widget_refresh">Refresh</string>
+    <string name="widget_small_description">Quick action — sync your active repo with one tap.</string>
+    <string name="widget_medium_description">Status + Upload, Sync, Open buttons.</string>
+    <string name="widget_large_description">Full dashboard — live upload progress, recent activity, action grid.</string>
 </resources>
