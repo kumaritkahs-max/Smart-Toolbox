@@ -71,7 +71,7 @@ fun AppRoot() {
                 BiometricScreen(main) { nav.navigate(Routes.DASHBOARD) { popUpTo(0) { inclusive = true } } }
             }
             composable(Routes.DASHBOARD) {
-                DashboardScreen(main) { nav.navigate(it) }
+                DashboardScreen(main, onNavigate = { nav.navigate(it) })
             }
             composable(Routes.REPOS) {
                 RepoListScreen(onBack = { nav.popBackStack() }, onOpen = { o, n -> nav.navigate(Routes.repoDetail(o, n)) }, onCreate = { nav.navigate(Routes.CREATE_REPO) })

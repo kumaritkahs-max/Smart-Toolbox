@@ -1,24 +1,24 @@
 package com.githubcontrol.ui.screens.auth
 
-import androidx.activity.ComponentActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material3.*
+import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.githubcontrol.viewmodel.MainViewModel
 
 @Composable
 fun BiometricScreen(vm: MainViewModel, onUnlocked: () -> Unit) {
     val ctx = LocalContext.current
-    val activity = ctx as? ComponentActivity
+    val activity = ctx as? FragmentActivity
     val state by vm.state.collectAsState()
     var error by remember { mutableStateOf<String?>(null) }
 
