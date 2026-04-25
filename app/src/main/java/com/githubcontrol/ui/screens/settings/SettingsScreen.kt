@@ -29,11 +29,21 @@ fun SettingsScreen(main: MainViewModel, onBack: () -> Unit, onNavigate: (String)
         Column(Modifier.padding(pad).fillMaxSize().padding(12.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             GhCard {
                 Text("Appearance", style = MaterialTheme.typography.titleMedium)
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    "Light · dark · AMOLED, accent color, density, corner radius, text size, terminal palette and Material You.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 Spacer(Modifier.height(8.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     listOf("system", "light", "dark").forEach { mode ->
                         FilterChip(selected = theme == mode, onClick = { scope.launch { main.accountManager.setTheme(mode) } }, label = { Text(mode) })
                     }
+                }
+                Spacer(Modifier.height(8.dp))
+                Button(onClick = { onNavigate(Routes.APPEARANCE) }, modifier = Modifier.fillMaxWidth()) {
+                    Text("Open full appearance editor")
                 }
             }
             GhCard {

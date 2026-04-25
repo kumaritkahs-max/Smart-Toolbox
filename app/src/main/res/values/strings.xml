@@ -8,4 +8,9 @@
     <string name="biometric_prompt_title">Unlock GitHub Control</string>
     <string name="biometric_prompt_subtitle">Authenticate to continue</string>
     <string name="cancel">Cancel</string>
+    <string name="widget_label">GitHub Control</string>
+    <string name="widget_subtitle">Tap to open</string>
+    <string name="widget_description">Quick access to GitHub Control: open the app or refresh status.</string>
+    <string name="widget_open">Open</string>
+    <string name="widget_refresh">Refresh</string>
 </resources>

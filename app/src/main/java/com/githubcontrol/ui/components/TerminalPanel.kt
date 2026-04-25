@@ -55,6 +55,8 @@ fun EmbeddedTerminal(
     var levelFilter by remember { mutableStateOf<Logger.Level?>(null) }
     val all by Logger.entries.collectAsState()
     val ctx = LocalContext.current
+    val palette = com.githubcontrol.ui.theme.LocalTerminalTheme.current
+    val termBg = palette.bg
 
     val visible = remember(all, section, showAll, levelFilter) {
         val baseScope = if (showAll) all else all.filter {
@@ -75,7 +77,7 @@ fun EmbeddedTerminal(
             .fillMaxWidth()
             .clip(RoundedCornerShape(14.dp))
             .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.4f), RoundedCornerShape(14.dp))
-            .background(Color(0xFF0A0F17))
+            .background(termBg)
     ) {
         Row(
             Modifier

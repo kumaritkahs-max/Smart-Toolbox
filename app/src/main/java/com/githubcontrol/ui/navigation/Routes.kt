@@ -41,6 +41,7 @@ object Routes {
     const val COLLABORATORS = "collaborators/{owner}/{name}"
     const val PERMISSIONS = "permissions"
     const val CRASHES = "crashes"
+    const val APPEARANCE = "appearance"
 
     fun repoDetail(owner: String, name: String) = "repo/$owner/$name"
     fun files(owner: String, name: String, path: String = "", ref: String = "") =

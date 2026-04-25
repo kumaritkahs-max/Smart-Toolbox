@@ -47,15 +47,31 @@ import com.githubcontrol.ui.screens.search.SearchScreen
 import com.githubcontrol.ui.screens.settings.SettingsScreen
 import com.githubcontrol.ui.screens.sync.SyncScreen
 import com.githubcontrol.ui.theme.GitHubControlTheme
+import com.githubcontrol.ui.theme.ThemeSettings
 import com.githubcontrol.viewmodel.MainViewModel
 
 @Composable
 fun AppRoot() {
     val main: MainViewModel = hiltViewModel()
     val state by main.state.collectAsState()
-    val theme by main.accountManager.themeFlow.collectAsState(initial = "system")
+    val am = main.accountManager
+    val theme by am.themeFlow.collectAsState(initial = "system")
+    val accent by am.accentColorFlow.collectAsState(initial = "blue")
+    val dynamic by am.dynamicColorFlow.collectAsState(initial = false)
+    val amoled by am.amoledFlow.collectAsState(initial = false)
+    val fontScale by am.fontScaleFlow.collectAsState(initial = 1.0f)
+    val monoScale by am.monoFontScaleFlow.collectAsState(initial = 1.0f)
+    val density by am.densityFlow.collectAsState(initial = "comfortable")
+    val corner by am.cornerRadiusFlow.collectAsState(initial = 14)
+    val terminal by am.terminalThemeFlow.collectAsState(initial = "github-dark")
 
-    GitHubControlTheme(themeMode = theme) {
+    val settings = ThemeSettings(
+        mode = theme, accentKey = accent, dynamicColor = dynamic, amoled = amoled,
+        fontScale = fontScale, monoFontScale = monoScale, density = density,
+        cornerRadius = corner, terminalTheme = terminal
+    )
+
+    GitHubControlTheme(settings = settings) {
         val nav = rememberNavController()
 
         LaunchedEffect(state.loggedIn, state.locked) {
@@ -335,6 +351,9 @@ fun AppRoot() {
             }
             composable(Routes.CRASHES) {
                 com.githubcontrol.ui.screens.settings.CrashLogScreen(onBack = { nav.popBackStack() })
+            }
+            composable(Routes.APPEARANCE) {
+                com.githubcontrol.ui.screens.settings.AppearanceScreen(main = main, onBack = { nav.popBackStack() })
             }
         }
     }

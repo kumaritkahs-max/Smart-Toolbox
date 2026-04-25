@@ -43,6 +43,15 @@ class AccountManager @Inject constructor(
     private val keyAuthorName = stringPreferencesKey("author_name")
     private val keyAuthorEmail = stringPreferencesKey("author_email")
     private val keyDefaultBranch = stringPreferencesKey("default_branch_pref")
+    // ----- Appearance / customization -----
+    private val keyAccent = stringPreferencesKey("accent_color")           // palette key e.g. "blue"
+    private val keyDynamic = booleanPreferencesKey("dynamic_color")        // Material You
+    private val keyAmoled = booleanPreferencesKey("amoled_dark")           // pitch-black dark
+    private val keyFontScale = floatPreferencesKey("font_scale")           // 0.85..1.4
+    private val keyMonoScale = floatPreferencesKey("mono_font_scale")      // 0.8..1.4
+    private val keyDensity = stringPreferencesKey("density")               // compact/comfortable/cozy
+    private val keyCorner = intPreferencesKey("corner_radius")             // 0..28
+    private val keyTerminalTheme = stringPreferencesKey("terminal_theme")  // github/dracula/solarized/mono
 
     val rateRemaining = MutableStateFlow<Int?>(null)
     fun updateRateRemaining(v: Int) { rateRemaining.value = v }
@@ -59,6 +68,14 @@ class AccountManager @Inject constructor(
     val dangerousModeFlow: Flow<Boolean> = context.dataStore.data.map { it[keyDangerous] ?: false }
     val authorNameFlow: Flow<String?> = context.dataStore.data.map { it[keyAuthorName] }
     val authorEmailFlow: Flow<String?> = context.dataStore.data.map { it[keyAuthorEmail] }
+    val accentColorFlow: Flow<String> = context.dataStore.data.map { it[keyAccent] ?: "blue" }
+    val dynamicColorFlow: Flow<Boolean> = context.dataStore.data.map { it[keyDynamic] ?: false }
+    val amoledFlow: Flow<Boolean> = context.dataStore.data.map { it[keyAmoled] ?: false }
+    val fontScaleFlow: Flow<Float> = context.dataStore.data.map { it[keyFontScale] ?: 1.0f }
+    val monoFontScaleFlow: Flow<Float> = context.dataStore.data.map { it[keyMonoScale] ?: 1.0f }
+    val densityFlow: Flow<String> = context.dataStore.data.map { it[keyDensity] ?: "comfortable" }
+    val cornerRadiusFlow: Flow<Int> = context.dataStore.data.map { it[keyCorner] ?: 14 }
+    val terminalThemeFlow: Flow<String> = context.dataStore.data.map { it[keyTerminalTheme] ?: "github-dark" }
 
     private fun loadAccounts(): List<Account> {
         val raw = secure.getString(keyAccounts, null) ?: return emptyList()
@@ -115,6 +132,20 @@ class AccountManager @Inject constructor(
     suspend fun setAuthor(name: String?, email: String?) = context.dataStore.edit {
         if (name == null) it.remove(keyAuthorName) else it[keyAuthorName] = name
         if (email == null) it.remove(keyAuthorEmail) else it[keyAuthorEmail] = email
+    }
+
+    suspend fun setAccent(palette: String) = context.dataStore.edit { it[keyAccent] = palette }
+    suspend fun setDynamicColor(enabled: Boolean) = context.dataStore.edit { it[keyDynamic] = enabled }
+    suspend fun setAmoled(enabled: Boolean) = context.dataStore.edit { it[keyAmoled] = enabled }
+    suspend fun setFontScale(scale: Float) = context.dataStore.edit { it[keyFontScale] = scale.coerceIn(0.7f, 1.6f) }
+    suspend fun setMonoFontScale(scale: Float) = context.dataStore.edit { it[keyMonoScale] = scale.coerceIn(0.7f, 1.6f) }
+    suspend fun setDensity(value: String) = context.dataStore.edit { it[keyDensity] = value }
+    suspend fun setCornerRadius(dp: Int) = context.dataStore.edit { it[keyCorner] = dp.coerceIn(0, 28) }
+    suspend fun setTerminalTheme(value: String) = context.dataStore.edit { it[keyTerminalTheme] = value }
+    suspend fun resetAppearance() = context.dataStore.edit {
+        it.remove(keyAccent); it.remove(keyDynamic); it.remove(keyAmoled)
+        it.remove(keyFontScale); it.remove(keyMonoScale); it.remove(keyDensity)
+        it.remove(keyCorner); it.remove(keyTerminalTheme); it[keyTheme] = "system"
     }
 
     /** Update the cached OAuth scopes for an existing account (parsed from response headers). */
